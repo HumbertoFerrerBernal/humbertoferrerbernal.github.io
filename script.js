@@ -1,4 +1,3 @@
-// Función para cargar los datos del JSON
 document.addEventListener('DOMContentLoaded', () => {
     fetch('data.json')
         .then(response => response.json())
@@ -28,9 +27,10 @@ function loadProjects(projects) {
     const container = document.getElementById('projects-container');
     projects.forEach(project => {
         const rolesHtml = project.roles.map(role => `<span class="role-tag">${role}</span>`).join('');
+        const largeClass = project.size === 'large' ? 'large' : '';
         const cardHtml = `
-            <div class="project-card">
-                <div class="project-img"></div>
+            <div class="project-card ${largeClass}">
+                <div class="project-img">Landscape Placeholder</div>
                 <div class="project-info">
                     <h3>${project.title}</h3>
                     <div class="project-roles">${rolesHtml}</div>

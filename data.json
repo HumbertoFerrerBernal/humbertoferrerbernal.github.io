@@ -1,33 +1,41 @@
 {
   "skills": [
     {
-      "title": "3D ANIMATION",
-      "description": "Keyframe and motion-capture performance in Maya, grounded in solid acting fundamentals and body mechanics. Facial animation and animation supervision across realistic and stylized productions.",
-      "tags": ["MAYA", "KEYFRAME", "MOCAP", "FACIAL", "BODY MECHANICS"]
+      "title": "LIGHTING",
+      "description": "Crafting cinematic atmospheres and establishing mood through dynamic lighting setups. Experienced in both stylized and photorealistic rendering workflows.",
+      "tags": ["MAYA", "ARNOLD", "UNREAL ENGINE", "KATANA"]
     },
     {
-      "title": "MODELING & TEXTURING",
-      "description": "Organic and hard-surface modeling with clean UV mapping, plus texturing and lookdev for both realistic and stylized characters and props. Built with Maya, ZBrush, Substance Painter and Mari.",
-      "tags": ["MAYA", "ZBRUSH", "UV MAPPING", "SUBSTANCE", "LOOKDEV"]
+      "title": "COMPOSITING",
+      "description": "Seamlessly integrating CG elements, FX, and live-action footage. Proficient in node-based compositing, color correction, and final polish.",
+      "tags": ["NUKE", "AFTER EFFECTS", "MULTI-PASS EXR"]
     },
     {
-      "title": "CHARACTER FX",
-      "description": "Lead CFX on cloth and jewelry simulations for hero characters, with Marvelous Designer and Houdini.",
-      "tags": ["CLOTH SIM", "HOUDINI", "MARVELOUS"]
+      "title": "LAYOUT & PREVIS",
+      "description": "Translating storyboards into 3D space, establishing camera work, and ensuring solid scene composition before lighting.",
+      "tags": ["CAMERA ANIMATION", "SCENE ASSEMBLY"]
     }
   ],
   "projects": [
     {
-      "title": "STIGMA SHORTFILM",
-      "roles": ["ANIMATION SUPERVISOR", "LEAD CFX", "CHARACTER MODELING"]
+      "title": "NO LIFE",
+      "roles": ["Lighting Lead", "Compositing Lead", "Layout Lead", "Character FX"],
+      "size": "large"
     },
     {
-      "title": "RAZZMATAZZ AUDIOVISUALS",
-      "roles": ["DJ VISUALS", "3D MODELS"]
+      "title": "Desafío Champions Sendokai: Rebith",
+      "roles": ["Lighting", "Compositing"],
+      "size": "large"
     },
     {
-      "title": "OUR LAST WALK",
-      "roles": ["ANIMATION", "CHARACTER ART"]
+      "title": "Proyecto 01",
+      "roles": ["nose"],
+      "size": "small"
+    },
+    {
+      "title": "Proyecto 02",
+      "roles": ["nose"],
+      "size": "small"
     }
   ]
 }
