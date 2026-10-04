@@ -15,7 +15,7 @@ body { background-color: var(--bg-color); color: var(--text-main); line-height: 
 /* Tipografía */
 h1 { font-size: 5.5rem; font-weight: 900; line-height: 1.1; } 
 
-/* Títulos h2: 55px (más grandes) y todos llevan Glow text-shadow */
+/* Títulos h2 */
 h2 { font-size: 55px; font-weight: 900; margin-bottom: 2rem; text-transform: uppercase; }
 
 .accent { color: var(--accent); }
@@ -33,7 +33,7 @@ h2 { font-size: 55px; font-weight: 900; margin-bottom: 2rem; text-transform: upp
 /* Separadores */
 .divider { border: 0; height: 1px; background: #dcdce0; margin: 0 15%; }
 
-/* Navegación y Dropdown - EXTREMOS DE LA PANTALLA */
+/* Navegación y Dropdown */
 nav {
     display: flex; justify-content: space-between; align-items: center; 
     padding: 1.5rem 3%; 
@@ -62,7 +62,6 @@ nav {
 .hero-content { display: flex; justify-content: flex-start; gap: 6rem; align-items: center; width: 100%; margin-top: 50px; }
 .titles { flex-shrink: 0; }
 
-/* About Me desplazado a la derecha */
 .about-me { max-width: 450px; font-size: 1.05rem; margin-left: 6rem; }
 
 /* Showreel y Video UI Custom */
@@ -76,7 +75,6 @@ nav {
 }
 .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
-/* Superposición del Botón Play y Miniatura */
 .video-overlay {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
     background-color: #111111; 
@@ -98,7 +96,7 @@ nav {
 /* Sections general */
 .section { padding: 5rem 15%; }
 
-/* Skills Grid (Cajas blancas de habilidades se mantienen) */
+/* Skills Grid */
 .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem; }
 .card { background-color: var(--card-bg); padding: 2.5rem; border-radius: 12px; border: 1px solid var(--card-border); transition: all 0.3s ease; }
 .card:hover { box-shadow: 0 0 25px rgba(229, 185, 26, 0.4); transform: translateY(-5px); border-color: var(--accent); }
@@ -108,40 +106,84 @@ nav {
 .tag { font-size: 0.7rem; border: 1px solid var(--text-muted); padding: 0.3rem 0.8rem; border-radius: 15px; color: var(--text-muted); font-weight: bold; }
 
 
-/* Projects Grid (Rediseño Sin Borde) */
+/* Projects Grid (Rediseño Overlay - Título dentro de la imagen sin borde) */
 .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+
 .project-card {
-    background-color: transparent; border: none; /* Quitamos borde y fondo */
-    display: block; text-decoration: none; transition: all 0.3s ease;
+    position: relative;
+    background-color: transparent; 
+    border: none; 
+    display: block; 
+    text-decoration: none; 
+    border-radius: 12px;
+    overflow: hidden;
+    height: 400px; /* Más largas verticalmente */
+    transition: all 0.3s ease;
 }
 
-/* El hover ahora hace brillar y flotar LA IMAGEN, no toda la carta */
-.project-card:hover .project-img { 
-    box-shadow: 0 0 25px rgba(229, 185, 26, 0.4); 
-    border: 2px solid var(--accent);
+.project-card.large { grid-column: 1 / -1; height: 600px; /* Más largas para destacadas */ }
+
+/* Al pasar por encima brilla el recuadro entero y se eleva */
+.project-card:hover { 
+    box-shadow: 0 0 25px rgba(229, 185, 26, 0.5); 
     transform: translateY(-5px); 
 }
 
-.project-card.large { grid-column: 1 / -1; }
-.project-card.large .project-img {
-    height: 500px; /* Más largas (antes 420) */
+/* Efecto de zoom a la imagen del fondo */
+.project-card:hover .project-img img {
+    transform: scale(1.05);
 }
 
 .project-img {
-    height: 350px; /* Más largas (antes 280) */
-    width: 100%; background-color: #e0e0e0;
+    position: absolute; top: 0; left: 0;
+    height: 100%; width: 100%; 
+    background-color: #111; /* Fondo oscuro por si no carga la imagen */
     display: flex; align-items: center; justify-content: center;
-    color: var(--text-muted); font-weight: bold; font-size: 1.2rem; 
-    overflow: hidden; border-radius: 12px; border: 2px solid transparent;
-    transition: all 0.3s ease;
+    color: #444; font-weight: bold; font-size: 1.2rem; 
+    z-index: 1;
 }
-.project-info { padding: 1.5rem 0 0 0; text-align: left; }
-.project-info h3 { margin-bottom: 0.5rem; color: var(--text-main); font-size: 1.5rem; }
+
+.project-img img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.5s ease; /* Transición del zoom suave */
+}
+
+/* Sombra/Gradiente en la parte inferior para que el texto sea siempre legible */
+.project-overlay {
+    position: absolute; bottom: 0; left: 0; width: 100%; height: 60%;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 40%, transparent 100%);
+    z-index: 2;
+    pointer-events: none; /* No bloquea el click */
+}
+
+.project-info { 
+    position: absolute; bottom: 0; left: 0; width: 100%;
+    padding: 2.5rem 2rem; /* Espaciado dentro de la imagen */
+    text-align: left; 
+    z-index: 3;
+}
+
+.project-info h3 { 
+    margin-bottom: 0.8rem; 
+    color: #ffffff; /* Texto blanco para destacar sobre el fondo oscuro */
+    font-size: 1.8rem; 
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+}
+
 .project-roles { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
 .role-tag {
-    font-size: 0.65rem; background: rgba(229, 185, 26, 0.2); color: #9A7B0E;
-    padding: 0.3rem 0.8rem; border-radius: 10px; font-weight: bold; text-transform: uppercase;
+    font-size: 0.65rem; 
+    background: rgba(17, 17, 17, 0.75); /* Fondo oscuro semitransparente como la referencia */
+    color: var(--accent); /* Texto amarillo */
+    border: 1px solid var(--accent); /* Borde amarillo muy sutil */
+    padding: 0.4rem 0.8rem; 
+    border-radius: 6px; 
+    font-weight: bold; 
+    text-transform: uppercase;
+    backdrop-filter: blur(4px); /* Difumina un poco el fondo por detrás de la etiqueta */
 }
+
 
 /* Contacto */
 .contact-container {
@@ -196,10 +238,12 @@ nav {
     transition: opacity 0.2s; z-index: 9999; font-size: 0.8rem;
 }
 
-/* Mini Grid Recomendaciones */
+/* Mini Grid Recomendaciones (Abajo en página de detalle) */
 .mini-projects-grid {
     display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;
 }
-.mini-projects-grid .project-img { height: 130px; border-radius: 8px; }
-.mini-projects-grid .project-info { padding: 0.5rem 0 0 0; }
-.mini-projects-grid h4 { font-size: 0.9rem; margin: 0; }
+.mini-projects-grid .project-card {
+    height: 200px; /* Altura de la miniatura */
+}
+.mini-projects-grid .project-info { padding: 1.2rem; }
+.mini-projects-grid h4 { font-size: 1.1rem; margin: 0; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }

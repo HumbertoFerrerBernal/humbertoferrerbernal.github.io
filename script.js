@@ -65,7 +65,7 @@ function setupVideo() {
     }
 }
 
-// Inyecta el menú (mismos enlaces en todas partes)
+// Inyecta el menú
 function renderNav() {
     const dropdownLinks = portfolioData.projects.map(p => 
         `<a href="project-placeholder.html?title=${encodeURIComponent(p.title)}">${p.title}</a>`
@@ -92,7 +92,7 @@ function renderNav() {
     document.getElementById('nav-container').innerHTML = navHtml;
 }
 
-// Inyecta el footer global
+// Inyecta el footer
 function renderFooter() {
     const footerHtml = `
     <footer class="footer">
@@ -129,27 +129,28 @@ function loadSkills(skills) {
     });
 }
 
+// Cargar proyectos (Grid Principal Overlay)
 function loadProjects(projects, containerId) {
     const container = document.getElementById(containerId);
     if (!container) return;
     
     projects.forEach(project => {
-        // Para filtrar los que son solo álbum de la pantalla principal (si quisieras no mezclarlos)
-        // Por ahora los carga tal cual
         const rolesHtml = project.roles ? project.roles.map(role => `<span class="role-tag">${role}</span>`).join('') : '';
         const largeClass = project.size === 'large' ? 'large' : '';
         
         let imgContent = `Landscape Placeholder`;
         if (project.image) {
             const fallbackImg = project.image.replace('.png', '.jpg');
-            imgContent = `<img src="${project.image}" alt="${project.title}" onerror="this.onerror=null; this.src='${fallbackImg}';" style="width:100%; height:100%; object-fit:cover;">`;
+            imgContent = `<img src="${project.image}" alt="${project.title}" onerror="this.onerror=null; this.src='${fallbackImg}';">`;
         }
             
         const linkUrl = `project-placeholder.html?title=${encodeURIComponent(project.title)}`;
         
+        // Nueva estructura overlay
         const cardHtml = `
             <a href="${linkUrl}" class="project-card ${largeClass}">
                 <div class="project-img">${imgContent}</div>
+                <div class="project-overlay"></div>
                 <div class="project-info">
                     <h3>${project.title}</h3>
                     <div class="project-roles">${rolesHtml}</div>
@@ -170,15 +171,16 @@ function buildRelatedSection(titleText, items) {
         let imgContent = `Landscape Placeholder`;
         if (project.image) {
             const fallbackImg = project.image.replace('.png', '.jpg');
-            imgContent = `<img src="${project.image}" alt="${project.title}" onerror="this.onerror=null; this.src='${fallbackImg}';" style="width:100%; height:100%; object-fit:cover;">`;
+            imgContent = `<img src="${project.image}" alt="${project.title}" onerror="this.onerror=null; this.src='${fallbackImg}';">`;
         }
         const linkUrl = `project-placeholder.html?title=${encodeURIComponent(project.title)}`;
         
         html += `
             <a href="${linkUrl}" class="project-card">
                 <div class="project-img">${imgContent}</div>
+                <div class="project-overlay"></div>
                 <div class="project-info">
-                    <h4 style="color:var(--text-main);">${project.title}</h4>
+                    <h4>${project.title}</h4>
                 </div>
             </a>
         `;
@@ -197,13 +199,12 @@ function loadProjectDetails() {
     const project = portfolioData.projects.find(p => p.title === title);
     
     if (project) {
-        // Título y Descripción
         if(project.desc) {
             document.getElementById('project-desc').textContent = project.desc;
         }
         
-        // Roles
-        const rolesHtml = project.roles ? project.roles.map(role => `<span class="role-tag">${role}</span>`).join('') : '';
+        // Roles de estilo normal en la página de detalle
+        const rolesHtml = project.roles ? project.roles.map(role => `<span class="role-tag" style="background:rgba(229,185,26,0.2); color:#9A7B0E; border:none; padding:0.3rem 0.8rem; border-radius:10px; font-weight:bold;">${role}</span>`).join('') : '';
         document.getElementById('project-tags').innerHTML = rolesHtml;
         
         // Imagen Clickeable para Lightbox
@@ -232,11 +233,9 @@ function loadProjectDetails() {
     let relatedHtml = '';
     
     if (isAlbum) {
-        // En un album mostramos primero ANOTHER GALLERY y luego ANOTHER PROJECTS
         relatedHtml += buildRelatedSection('ANOTHER GALLERY::', albums);
         relatedHtml += buildRelatedSection('ANOTHER PROJECTS::', projects);
     } else {
-        // En un proyecto mostramos primero ANOTHER PROJECTS y luego OTHER ALBUM
         relatedHtml += buildRelatedSection('ANOTHER PROJECTS::', projects);
         relatedHtml += buildRelatedSection('OTHER ALBUM::', albums);
     }
