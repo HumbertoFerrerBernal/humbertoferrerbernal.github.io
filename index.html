@@ -8,24 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Navegación -->
-    <nav>
-        <div class="logo">HUMBERTO FERRER</div>
-        <ul class="nav-links">
-            <li><a href="#home">HOME</a></li>
-            <li class="dropdown">
-                <a href="#projects">PROJECTS ▾</a>
-                <div class="dropdown-content">
-                    <a href="project-placeholder.html?title=NO%20LIFE">NO LIFE</a>
-                    <a href="project-placeholder.html?title=Desafío%20Champions%20SENDOKAI:%20Rebith">SENDOKAI</a>
-                    <a href="project-placeholder.html?title=Proyecto%2001">Proyecto 01</a>
-                    <a href="project-placeholder.html?title=Proyecto%2002">Proyecto 02</a>
-                </div>
-            </li>
-            <li><a href="#album">ALBUM</a></li>
-            <li><a href="#contact" class="btn-contact">CONTACT</a></li>
-        </ul>
-    </nav>
+    <!-- Navegación inyectada por JS -->
+    <div id="nav-container"></div>
 
     <!-- Sección Hero -->
     <header id="home" class="hero">
@@ -33,7 +17,7 @@
         <div class="hero-content">
             <div class="titles">
                 <h1 class="accent glow-text">LIGHTING &</h1>
-                <h1 class="accent glow-text">COMPOSITING<br>ARTIST</h1>
+                <h1 class="glow-text">COMPOSITING<br>ARTIST</h1>
             </div>
             <div class="about-me">
                 <p class="section-subtitle">— ABOUT ME</p>
@@ -46,10 +30,13 @@
 
     <!-- Sección Showreel -->
     <section id="showreel" class="section">
-        <p class="section-subtitle center">— 2026</p>
-        <h2 class="center accent">SHOWREEL</h2>
-        <div class="video-container">
-            <iframe src="https://player.vimeo.com/video/1227875291" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+        <p class="section-subtitle left">— Lighting and Compositing</p>
+        <h2 class="left accent">SHOWREEL</h2>
+        <div class="video-container" id="video-wrapper">
+            <div class="video-overlay" id="video-overlay">
+                <div class="play-btn">&#9658;</div>
+            </div>
+            <iframe id="vimeo-iframe" src="https://player.vimeo.com/video/1227875291" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
         </div>
     </section>
 
@@ -68,8 +55,8 @@
 
     <!-- Sección Proyectos -->
     <section id="projects" class="section">
-        <p class="section-subtitle center">— SELECTED WORK</p>
-        <h2 class="center accent">FEATURED PROJECTS</h2>
+        <p class="section-subtitle left">— SELECTED WORK</p>
+        <h2 class="left accent">FEATURED PROJECTS</h2>
         <div class="projects-grid" id="projects-container">
             <!-- Los datos se inyectarán aquí vía JavaScript -->
         </div>
@@ -79,15 +66,15 @@
 
     <!-- Sección ALBUM -->
     <section id="album" class="section">
-        <p class="section-subtitle center">— EXPLORE MORE</p>
-        <h2 class="center accent">ALBUM</h2>
+        <p class="section-subtitle left">— EXPLORE MORE</p>
+        <h2 class="left accent">ALBUM</h2>
         <div class="projects-grid">
-            <div class="project-card"><div class="project-img">Lighting 1</div></div>
-            <div class="project-card"><div class="project-img">Lighting 2</div></div>
-            <div class="project-card"><div class="project-img">Lighting 3</div></div>
-            <div class="project-card"><div class="project-img">Lighting 4</div></div>
-            <div class="project-card"><div class="project-img">Lighting 5</div></div>
-            <div class="project-card"><div class="project-img">Lighting 6</div></div>
+            <a href="project-placeholder.html?title=Lighting%201" class="project-card"><div class="project-img">Lighting 1</div></a>
+            <a href="project-placeholder.html?title=Lighting%202" class="project-card"><div class="project-img">Lighting 2</div></a>
+            <a href="project-placeholder.html?title=Lighting%203" class="project-card"><div class="project-img">Lighting 3</div></a>
+            <a href="project-placeholder.html?title=Lighting%204" class="project-card"><div class="project-img">Lighting 4</div></a>
+            <a href="project-placeholder.html?title=Lighting%205" class="project-card"><div class="project-img">Lighting 5</div></a>
+            <a href="project-placeholder.html?title=Lighting%206" class="project-card"><div class="project-img">Lighting 6</div></a>
         </div>
     </section>
 
@@ -98,8 +85,7 @@
         <div class="contact-container">
             <div class="contact-img">
                 <div class="img-placeholder">
-                    <!-- Se intentará cargar la imagen; si no existe, mostrará el texto alternativo -->
-                    <img src="PIC_Contact_Portrait.jpg" alt="Sube tu foto como PIC_Contact_Portrait.jpg" style="width:100%; height:100%; object-fit:cover; border-radius:12px; display:block;">
+                    <img src="PIC_Contact_Portrait.jpg" onerror="this.onerror=null; this.src='PIC_Contact_Portrait.png';" alt="Foto Contacto" style="width:100%; height:100%; object-fit:cover; border-radius:12px; display:block;">
                 </div>
             </div>
             <div class="contact-info">
@@ -111,28 +97,14 @@
                 <div class="social-links">
                     <a href="mailto:humberto.ferrer.bernal@gmail.com">MAIL</a>
                     <a href="https://www.linkedin.com/in/humberto-ferrer-bernal/" target="_blank">LINKEDIN</a>
-                    <a href="#" target="_blank">ARTSTATION</a>
+                    <a href="http://artstation.com/humbfbx" target="_blank">ARTSTATION</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-left">
-            <strong>HUMBERTO FERRER</strong>
-        </div>
-        <div class="footer-center">
-            <a href="mailto:humberto.ferrer.bernal@gmail.com">HUNMBERTO.FERRER.BERNAL@GMAIL.COM</a>
-            <span class="separator">-</span>
-            <a href="https://www.linkedin.com/in/humberto-ferrer-bernal/" target="_blank">LINKEDIN</a>
-            <span class="separator">-</span>
-            <a href="#">ARTSTATION</a>
-        </div>
-        <div class="footer-right">
-            <span class="copyright">© 2026 Humberto Ferrer - All rights reserved</span>
-        </div>
-    </footer>
+    <!-- Footer inyectado por JS -->
+    <div id="footer-container"></div>
 
     <script src="script.js"></script>
 </body>

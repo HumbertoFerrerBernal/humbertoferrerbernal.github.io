@@ -1,12 +1,91 @@
+let portfolioData = null;
+
 document.addEventListener('DOMContentLoaded', () => {
     fetch('data.json')
         .then(response => response.json())
         .then(data => {
-            loadSkills(data.skills);
-            loadProjects(data.projects);
+            portfolioData = data;
+            
+            // 1. Inyectamos componentes globales
+            renderNav();
+            renderFooter();
+            
+            // 2. Comprobamos la página
+            if (document.getElementById('skills-container')) {
+                // Página Principal
+                loadSkills(data.skills);
+                loadProjects(data.projects, 'projects-container');
+                setupVideo();
+            } else if (document.getElementById('project-detail-page')) {
+                // Página de Detalles del Proyecto
+                loadProjectDetails();
+            }
         })
         .catch(error => console.error('Error cargando el JSON:', error));
 });
+
+// Reproductor de Vimeo Custom
+function setupVideo() {
+    const overlay = document.getElementById('video-overlay');
+    if(overlay) {
+        overlay.addEventListener('click', () => {
+            overlay.style.display = 'none';
+            const iframe = document.getElementById('vimeo-iframe');
+            // Añadimos autoplay a la url para que comience al hacer click
+            iframe.src += "?autoplay=1";
+        });
+    }
+}
+
+// Inyecta el menú (mismos enlaces en todas partes)
+function renderNav() {
+    const dropdownLinks = portfolioData.projects.map(p => 
+        `<a href="project-placeholder.html?title=${encodeURIComponent(p.title)}">${p.title}</a>`
+    ).join('');
+    
+    // Todos los links apuntan directamente al dominio final
+    const navHtml = `
+    <nav>
+        <div class="logo">
+            <a href="https://humbertoferrerbernal.github.io/" style="color:inherit; text-decoration:none;">HUMBERTO FERRER</a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="https://humbertoferrerbernal.github.io/">HOME</a></li>
+            <li class="dropdown">
+                <a href="https://humbertoferrerbernal.github.io/#projects">PROJECTS ▾</a>
+                <div class="dropdown-content">
+                    ${dropdownLinks}
+                </div>
+            </li>
+            <li><a href="https://humbertoferrerbernal.github.io/#album">ALBUM</a></li>
+            <li><a href="https://humbertoferrerbernal.github.io/#contact" class="btn-contact">CONTACT</a></li>
+        </ul>
+    </nav>
+    `;
+    document.getElementById('nav-container').innerHTML = navHtml;
+}
+
+// Inyecta el footer global
+function renderFooter() {
+    const footerHtml = `
+    <footer class="footer">
+        <div class="footer-left">
+            <strong>HUMBERTO FERRER</strong>
+        </div>
+        <div class="footer-center">
+            <a href="mailto:humberto.ferrer.bernal@gmail.com">HUMBERTO.FERRER.BERNAL@GMAIL.COM</a>
+            <span class="separator">·</span>
+            <a href="https://www.linkedin.com/in/humberto-ferrer-bernal/" target="_blank">LINKEDIN - HUMBERTO FERRER</a>
+            <span class="separator">·</span>
+            <a href="http://artstation.com/humbfbx" target="_blank">ARTSTATION - HUMBERTO FERRER BERNAL</a>
+        </div>
+        <div class="footer-right">
+            <span class="copyright">© 2026 Humberto Ferrer - All rights reserved</span>
+        </div>
+    </footer>
+    `;
+    document.getElementById('footer-container').innerHTML = footerHtml;
+}
 
 function loadSkills(skills) {
     const container = document.getElementById('skills-container');
@@ -23,21 +102,24 @@ function loadSkills(skills) {
     });
 }
 
-function loadProjects(projects) {
-    const container = document.getElementById('projects-container');
+function loadProjects(projects, containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    
     projects.forEach(project => {
-        const rolesHtml = project.roles.map(role => `<span class="role-tag">${role}</span>`).join('');
+        const rolesHtml = project.roles ? project.roles.map(role => `<span class="role-tag">${role}</span>`).join('') : '';
+        const largeClass = project.size === 'large' ? 'large' : '';
         
-        // Verifica si hay imagen, de lo contrario muestra el placeholder text
-        const imgContent = project.image 
-            ? `<img src="${project.image}" alt="${project.title}" style="width:100%; height:100%; object-fit:cover;">` 
-            : `Landscape Placeholder`;
+        let imgContent = `Landscape Placeholder`;
+        if (project.image) {
+            const fallbackImg = project.image.replace('.png', '.jpg');
+            imgContent = `<img src="${project.image}" alt="${project.title}" onerror="this.onerror=null; this.src='${fallbackImg}';" style="width:100%; height:100%; object-fit:cover;">`;
+        }
             
-        // Creamos un link <a> envolviendo la tarjeta para abrir la pestaña placeholder
         const linkUrl = `project-placeholder.html?title=${encodeURIComponent(project.title)}`;
         
         const cardHtml = `
-            <a href="${linkUrl}" class="project-card">
+            <a href="${linkUrl}" class="project-card ${largeClass}">
                 <div class="project-img">${imgContent}</div>
                 <div class="project-info">
                     <h3>${project.title}</h3>
@@ -47,4 +129,36 @@ function loadProjects(projects) {
         `;
         container.innerHTML += cardHtml;
     });
+}
+
+function loadProjectDetails() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const title = urlParams.get('title') || 'Proyecto Desconocido';
+    
+    document.getElementById('project-title').textContent = title;
+    document.title = title + " | Humberto Ferrer";
+    
+    const project = portfolioData.projects.find(p => p.title === title);
+    
+    if (project) {
+        // Título y Descripción
+        if(project.desc) {
+            document.getElementById('project-desc').textContent = project.desc;
+        }
+        
+        // Roles
+        const rolesHtml = project.roles ? project.roles.map(role => `<span class="role-tag">${role}</span>`).join('') : '';
+        document.getElementById('project-tags').innerHTML = rolesHtml;
+        
+        // Imagen
+        if (project.image) {
+            const fallbackImg = project.image.replace('.png', '.jpg');
+            document.getElementById('project-media').innerHTML = `<img src="${project.image}" alt="${project.title}" onerror="this.onerror=null; this.src='${fallbackImg}';" style="width:100%; height:100%; object-fit:cover;">`;
+        } else {
+             // Si el titulo lleva "Lighting" (es un enlace de album)
+             if(title.includes("Lighting")) {
+                 document.getElementById('project-media').innerHTML = `<div style="font-size:2rem;">${title}</div>`;
+             }
+        }
+    }
 }

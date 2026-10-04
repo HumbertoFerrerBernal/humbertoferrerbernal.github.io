@@ -9,11 +9,9 @@
     <style>
         .project-detail-hero {
             padding: 8rem 15% 4rem;
-            text-align: center;
-            background-color: var(--card-bg);
-            border-bottom: 1px solid var(--card-border);
+            text-align: left; /* Títulos a la izquierda */
         }
-        .project-video-placeholder {
+        .project-media-wrapper {
             width: 100%;
             aspect-ratio: 16/9;
             background-color: #e0e0e0;
@@ -21,10 +19,11 @@
             align-items: center;
             justify-content: center;
             border-radius: 12px;
-            margin: 3rem 0;
+            margin: 0 0 3rem 0;
             font-size: 1.5rem;
             color: var(--text-muted);
             font-weight: bold;
+            overflow: hidden;
         }
         .back-btn {
             display: inline-block;
@@ -36,38 +35,40 @@
         .back-btn:hover { text-decoration: underline; }
     </style>
 </head>
-<body>
-    <nav>
-        <div class="logo">HUMBERTO FERRER</div>
-        <ul class="nav-links">
-            <li><a href="index.html#home">HOME</a></li>
-            <li><a href="index.html#projects">PROJECTS</a></li>
-            <li><a href="index.html#contact" class="btn-contact">CONTACT</a></li>
-        </ul>
-    </nav>
+<body id="project-detail-page">
+    
+    <!-- Navegación inyectada por JS -->
+    <div id="nav-container"></div>
 
     <div class="project-detail-hero">
         <p class="section-subtitle">— PROJECT SHOWCASE</p>
         <h1 id="project-title" class="accent">Cargando Proyecto...</h1>
         
-        <div class="project-video-placeholder">
+        <!-- Nueva descripción del proyecto -->
+        <p id="project-desc" style="font-size: 1.1rem; color: var(--text-muted); margin-top: 1rem;"></p>
+        
+        <!-- Roles/Etiquetas debajo del título -->
+        <div id="project-tags" class="project-roles" style="margin-top: 1.5rem;"></div>
+
+        <!-- Separador -->
+        <hr class="divider" style="margin: 3rem 0; width: 100%;">
+        
+        <!-- Imagen visual -->
+        <div class="project-media-wrapper" id="project-media">
             [ Espacio para el vídeo o las imágenes de este proyecto ]
         </div>
 
-        <div style="max-width: 800px; margin: 0 auto; text-align: left;">
-            <h2>Acerca de este proyecto</h2>
+        <div style="max-width: 800px; text-align: left;">
+            <h2>ACERCA DE ESTE PROYECTO</h2>
             <p>Esta es una página de ejemplo (Placeholder). Aquí podrás escribir en el futuro la descripción técnica de tu trabajo, qué desafíos superaste en la iluminación o composición, y qué herramientas utilizaste.</p>
         </div>
         
-        <a href="index.html" class="back-btn">&larr; Volver al Portfolio</a>
+        <a href="https://humbertoferrerbernal.github.io/" class="back-btn">&larr; Volver al Portfolio</a>
     </div>
 
-    <script>
-        // Leer el título del proyecto de la URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const title = urlParams.get('title') || 'Proyecto Desconocido';
-        document.getElementById('project-title').textContent = title;
-        document.title = title + " | Humberto Ferrer";
-    </script>
+    <!-- Footer inyectado por JS -->
+    <div id="footer-container"></div>
+
+    <script src="script.js"></script>
 </body>
 </html>
