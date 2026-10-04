@@ -7,28 +7,28 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
+        /* Ajustes específicos para la vista de proyecto */
         .project-detail-hero {
-            padding: 8rem 15% 4rem;
-            text-align: center;
-            background-color: var(--card-bg);
-            border-bottom: 1px solid var(--card-border);
+            padding: 10rem 15% 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
         }
-        .project-video-placeholder {
-            width: 100%;
-            aspect-ratio: 16/9;
-            background-color: #e0e0e0;
+        .project-media-wrapper {
+            max-width: 900px; /* Imagen más pequeña */
+            margin: 2rem 0;
+            background-color: var(--card-border);
+            border-radius: 12px;
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 12px;
-            margin: 3rem 0;
-            font-size: 1.5rem;
             color: var(--text-muted);
             font-weight: bold;
+            aspect-ratio: 16/9;
         }
         .back-btn {
             display: inline-block;
-            margin-top: 2rem;
+            margin-top: 3rem;
             color: var(--accent);
             text-decoration: none;
             font-weight: bold;
@@ -36,38 +36,43 @@
         .back-btn:hover { text-decoration: underline; }
     </style>
 </head>
-<body>
-    <nav>
-        <div class="logo">HUMBERTO FERRER</div>
-        <ul class="nav-links">
-            <li><a href="index.html#home">HOME</a></li>
-            <li><a href="index.html#projects">PROJECTS</a></li>
-            <li><a href="index.html#contact" class="btn-contact">CONTACT</a></li>
-        </ul>
-    </nav>
+<body id="project-detail-page">
+    <!-- Menú inyectado por JS (Idéntico al de la principal) -->
+    <div id="nav-container"></div>
 
     <div class="project-detail-hero">
-        <p class="section-subtitle">— PROJECT SHOWCASE</p>
-        <h1 id="project-title" class="accent">Cargando Proyecto...</h1>
+        <p class="section-subtitle" style="text-align: left;">— PROJECT SHOWCASE</p>
+        <h1 id="project-title" class="accent" style="text-align: left;">Cargando...</h1>
         
-        <div class="project-video-placeholder">
-            [ Espacio para el vídeo o las imágenes de este proyecto ]
+        <div class="project-media-wrapper" id="project-media">
+            [ Placeholder Visual ]
         </div>
 
-        <div style="max-width: 800px; margin: 0 auto; text-align: left;">
-            <h2>Acerca de este proyecto</h2>
+        <div id="project-tags" class="project-roles" style="justify-content: flex-start; margin-bottom: 2rem;">
+            <!-- Etiquetas inyectadas por JS -->
+        </div>
+
+        <div style="text-align: left; max-width: 900px;">
+            <h2>ACERCA DE ESTE PROYECTO</h2>
             <p>Esta es una página de ejemplo (Placeholder). Aquí podrás escribir en el futuro la descripción técnica de tu trabajo, qué desafíos superaste en la iluminación o composición, y qué herramientas utilizaste.</p>
         </div>
         
         <a href="index.html" class="back-btn">&larr; Volver al Portfolio</a>
     </div>
 
-    <script>
-        // Leer el título del proyecto de la URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const title = urlParams.get('title') || 'Proyecto Desconocido';
-        document.getElementById('project-title').textContent = title;
-        document.title = title + " | Humberto Ferrer";
-    </script>
+    <hr class="divider">
+
+    <div class="section">
+        <p class="section-subtitle center">— EXPLORA MÁS</p>
+        <h2 class="center">OTROS PROYECTOS</h2>
+        <div class="projects-grid" id="other-projects-container">
+            <!-- Otras miniaturas inyectadas aquí por JS -->
+        </div>
+    </div>
+
+    <!-- Footer inyectado por JS -->
+    <div id="footer-container"></div>
+
+    <script src="script.js"></script>
 </body>
 </html>
