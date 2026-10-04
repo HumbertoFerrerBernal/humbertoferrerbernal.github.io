@@ -34,24 +34,52 @@
     {
       "title": "Proyecto 01",
       "desc": "Descripción técnica sobre los desafíos de iluminación y composición de este proyecto.",
-      "roles": ["nose"]
+      "roles": ["Lighting"],
+      "image": "PIC_Proyecto_01_Miniatura.png"
     },
     {
       "title": "Proyecto 02",
       "desc": "Descripción técnica sobre los desafíos de iluminación y composición de este proyecto.",
-      "roles": ["nose"]
-    },
+      "roles": ["Compositing"],
+      "image": "PIC_Proyecto_02_Miniatura.png"
+    }
+  ],
+  "album": [
     {
       "title": "Lighting 1",
       "desc": "Estudio de iluminación volumétrica y rebotes de color.",
       "roles": ["Lighting"],
-      "image": "PIC_Sendokai_Miniatura.png"
+      "image": "PIC_Lighting_01.png"
     },
     {
       "title": "Lighting 2",
       "desc": "Prueba de renderizado hiperrealista.",
       "roles": ["Lighting"],
-      "image": "PIC_No_Life_Miniatura.png"
+      "image": "PIC_Lighting_02.png"
+    },
+    {
+      "title": "Lighting 3",
+      "desc": "Estudio de iluminación y contraste ambiental.",
+      "roles": ["Lighting"],
+      "image": "PIC_Lighting_03.png"
+    },
+    {
+      "title": "Lighting 4",
+      "desc": "Exploración de la teoría del color en composición.",
+      "roles": ["Lighting"],
+      "image": "PIC_Lighting_04.png"
+    },
+    {
+      "title": "Lighting 5",
+      "desc": "Integración y postprocesado fotorealista.",
+      "roles": ["Lighting"],
+      "image": "PIC_Lighting_05.png"
+    },
+    {
+      "title": "Lighting 6",
+      "desc": "Estudio de iluminación en escenarios de alto contraste.",
+      "roles": ["Lighting"],
+      "image": "PIC_Lighting_06.png"
     }
   ]
 }

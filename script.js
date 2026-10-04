@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Página Principal
                 loadSkills(data.skills);
                 loadProjects(data.projects, 'projects-container');
+                loadProjects(data.album, 'album-container');
                 setupVideo();
             } else if (document.getElementById('project-detail-page')) {
                 // Página de Detalles del Proyecto
@@ -65,7 +66,7 @@ function setupVideo() {
     }
 }
 
-// Inyecta el menú
+// Inyecta el menú (mismos enlaces en todas partes - solo extraídos de projects)
 function renderNav() {
     const dropdownLinks = portfolioData.projects.map(p => 
         `<a href="project-placeholder.html?title=${encodeURIComponent(p.title)}">${p.title}</a>`
@@ -92,7 +93,7 @@ function renderNav() {
     document.getElementById('nav-container').innerHTML = navHtml;
 }
 
-// Inyecta el footer
+// Inyecta el footer global
 function renderFooter() {
     const footerHtml = `
     <footer class="footer">
@@ -130,29 +131,28 @@ function loadSkills(skills) {
 }
 
 // Cargar proyectos (Grid Principal Overlay)
-function loadProjects(projects, containerId) {
+function loadProjects(items, containerId) {
     const container = document.getElementById(containerId);
-    if (!container) return;
+    if (!container || !items) return;
     
-    projects.forEach(project => {
-        const rolesHtml = project.roles ? project.roles.map(role => `<span class="role-tag">${role}</span>`).join('') : '';
-        const largeClass = project.size === 'large' ? 'large' : '';
+    items.forEach(item => {
+        const rolesHtml = item.roles ? item.roles.map(role => `<span class="role-tag">${role}</span>`).join('') : '';
+        const largeClass = item.size === 'large' ? 'large' : '';
         
         let imgContent = `Landscape Placeholder`;
-        if (project.image) {
-            const fallbackImg = project.image.replace('.png', '.jpg');
-            imgContent = `<img src="${project.image}" alt="${project.title}" onerror="this.onerror=null; this.src='${fallbackImg}';">`;
+        if (item.image) {
+            const fallbackImg = item.image.replace('.png', '.jpg');
+            imgContent = `<img src="${item.image}" alt="${item.title}" onerror="this.onerror=null; this.src='${fallbackImg}';">`;
         }
             
-        const linkUrl = `project-placeholder.html?title=${encodeURIComponent(project.title)}`;
+        const linkUrl = `project-placeholder.html?title=${encodeURIComponent(item.title)}`;
         
-        // Nueva estructura overlay
+        // Estructura overlay sin div de degradado (se ha quitado .project-overlay del CSS/HTML general)
         const cardHtml = `
             <a href="${linkUrl}" class="project-card ${largeClass}">
                 <div class="project-img">${imgContent}</div>
-                <div class="project-overlay"></div>
                 <div class="project-info">
-                    <h3>${project.title}</h3>
+                    <h3>${item.title}</h3>
                     <div class="project-roles">${rolesHtml}</div>
                 </div>
             </a>
@@ -167,20 +167,19 @@ function buildRelatedSection(titleText, items) {
     let html = `<h3 class="accent" style="margin: 3rem 0 1rem 0; font-size: 1.2rem; letter-spacing: 2px;">${titleText}</h3>`;
     html += `<div class="mini-projects-grid">`;
     
-    items.forEach(project => {
+    items.forEach(item => {
         let imgContent = `Landscape Placeholder`;
-        if (project.image) {
-            const fallbackImg = project.image.replace('.png', '.jpg');
-            imgContent = `<img src="${project.image}" alt="${project.title}" onerror="this.onerror=null; this.src='${fallbackImg}';">`;
+        if (item.image) {
+            const fallbackImg = item.image.replace('.png', '.jpg');
+            imgContent = `<img src="${item.image}" alt="${item.title}" onerror="this.onerror=null; this.src='${fallbackImg}';">`;
         }
-        const linkUrl = `project-placeholder.html?title=${encodeURIComponent(project.title)}`;
+        const linkUrl = `project-placeholder.html?title=${encodeURIComponent(item.title)}`;
         
         html += `
             <a href="${linkUrl}" class="project-card">
                 <div class="project-img">${imgContent}</div>
-                <div class="project-overlay"></div>
                 <div class="project-info">
-                    <h4>${project.title}</h4>
+                    <h4>${item.title}</h4>
                 </div>
             </a>
         `;
@@ -196,7 +195,14 @@ function loadProjectDetails() {
     document.getElementById('project-title').textContent = title;
     document.title = title + " | Humberto Ferrer";
     
-    const project = portfolioData.projects.find(p => p.title === title);
+    // Buscamos si es proyecto normal o de album
+    let project = portfolioData.projects.find(p => p.title === title);
+    let isAlbum = false;
+    
+    if (!project) {
+        project = portfolioData.album.find(a => a.title === title);
+        isAlbum = true;
+    }
     
     if (project) {
         if(project.desc) {
@@ -217,27 +223,22 @@ function loadProjectDetails() {
                 if(img) openLightbox(img.src);
             };
         } else {
-             if(title.includes("Lighting")) {
-                 wrapper.innerHTML = `<div style="font-size:2rem;">${title}</div>`;
-             }
+             wrapper.innerHTML = `<div style="font-size:2rem;">${title}</div>`;
         }
     }
     
-    // Recomendaciones en la parte inferior
-    const isAlbum = title.toLowerCase().includes('lighting');
-    
-    // Filtramos para conseguir los arrays de albums y de proyectos excluyendo el actual
-    const albums = portfolioData.projects.filter(p => p.title.toLowerCase().includes('lighting') && p.title !== title);
-    const projects = portfolioData.projects.filter(p => !p.title.toLowerCase().includes('lighting') && p.title !== title);
+    // Recomendaciones en la parte inferior filtrando el actual
+    const relatedAlbums = portfolioData.album.filter(a => a.title !== title);
+    const relatedProjects = portfolioData.projects.filter(p => p.title !== title);
     
     let relatedHtml = '';
     
     if (isAlbum) {
-        relatedHtml += buildRelatedSection('ANOTHER GALLERY::', albums);
-        relatedHtml += buildRelatedSection('ANOTHER PROJECTS::', projects);
+        relatedHtml += buildRelatedSection('ANOTHER GALLERY::', relatedAlbums);
+        relatedHtml += buildRelatedSection('ANOTHER PROJECTS::', relatedProjects);
     } else {
-        relatedHtml += buildRelatedSection('ANOTHER PROJECTS::', projects);
-        relatedHtml += buildRelatedSection('OTHER ALBUM::', albums);
+        relatedHtml += buildRelatedSection('ANOTHER PROJECTS::', relatedProjects);
+        relatedHtml += buildRelatedSection('OTHER ALBUM::', relatedAlbums);
     }
     
     document.getElementById('related-sections').innerHTML = relatedHtml;
