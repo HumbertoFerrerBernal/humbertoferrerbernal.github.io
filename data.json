@@ -3,39 +3,37 @@
     {
       "title": "LIGHTING",
       "description": "Crafting cinematic atmospheres and establishing mood through dynamic lighting setups. Experienced in both stylized and photorealistic rendering workflows.",
-      "tags": ["MAYA", "ARNOLD", "UNREAL ENGINE", "KATANA"]
+      "tags": ["MAYA", "ARNOLD", "UNREAL ENGINE", "HOUDINI", "KARMA", "BLENDER"]
     },
     {
       "title": "COMPOSITING",
       "description": "Seamlessly integrating CG elements, FX, and live-action footage. Proficient in node-based compositing, color correction, and final polish.",
-      "tags": ["NUKE", "AFTER EFFECTS", "MULTI-PASS EXR"]
+      "tags": ["NUKE", "FUSION STUDIO", "DAVINCI RESOLVE", "AFTER EFFECTS", "MULTI-PASS EXR"]
     },
     {
       "title": "LAYOUT & PREVIS",
       "description": "Translating storyboards into 3D space, establishing camera work, and ensuring solid scene composition before lighting.",
-      "tags": ["CAMERA ANIMATION", "SCENE ASSEMBLY"]
+      "tags": ["MAYA", "BLENDER", "UNREAL ENGINE"]
     }
   ],
   "projects": [
     {
       "title": "NO LIFE",
       "roles": ["Lighting Lead", "Compositing Lead", "Layout Lead", "Character FX"],
-      "size": "large"
+      "image": "PIC_No_Life_Miniatura.jpg"
     },
     {
-      "title": "Desafío Champions Sendokai: Rebith",
+      "title": "Desafío Champions SENDOKAI: Rebith",
       "roles": ["Lighting", "Compositing"],
-      "size": "large"
+      "image": "PIC_Sendokai_Miniatura.jpg"
     },
     {
       "title": "Proyecto 01",
-      "roles": ["nose"],
-      "size": "small"
+      "roles": ["nose"]
     },
     {
       "title": "Proyecto 02",
-      "roles": ["nose"],
-      "size": "small"
+      "roles": ["nose"]
     }
   ]
 }

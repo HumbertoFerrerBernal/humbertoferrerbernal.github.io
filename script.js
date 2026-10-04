@@ -27,15 +27,23 @@ function loadProjects(projects) {
     const container = document.getElementById('projects-container');
     projects.forEach(project => {
         const rolesHtml = project.roles.map(role => `<span class="role-tag">${role}</span>`).join('');
-        const largeClass = project.size === 'large' ? 'large' : '';
+        
+        // Verifica si hay imagen, de lo contrario muestra el placeholder text
+        const imgContent = project.image 
+            ? `<img src="${project.image}" alt="${project.title}" style="width:100%; height:100%; object-fit:cover;">` 
+            : `Landscape Placeholder`;
+            
+        // Creamos un link <a> envolviendo la tarjeta para abrir la pestaña placeholder
+        const linkUrl = `project-placeholder.html?title=${encodeURIComponent(project.title)}`;
+        
         const cardHtml = `
-            <div class="project-card ${largeClass}">
-                <div class="project-img">Landscape Placeholder</div>
+            <a href="${linkUrl}" class="project-card">
+                <div class="project-img">${imgContent}</div>
                 <div class="project-info">
                     <h3>${project.title}</h3>
                     <div class="project-roles">${rolesHtml}</div>
                 </div>
-            </div>
+            </a>
         `;
         container.innerHTML += cardHtml;
     });
