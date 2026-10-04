@@ -8,11 +8,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         .project-detail-hero {
-            padding: 8rem 15% 4rem;
+            padding: 10rem 15% 4rem;
             text-align: left; /* Títulos a la izquierda */
         }
         .project-media-wrapper {
-            width: 100%;
+            max-width: 450px; /* Mitad de tamaño */
             aspect-ratio: 16/9;
             background-color: #e0e0e0;
             display: flex;
@@ -24,6 +24,13 @@
             color: var(--text-muted);
             font-weight: bold;
             overflow: hidden;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            cursor: zoom-in;
+        }
+        .project-media-wrapper:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 25px rgba(229, 185, 26, 0.4);
         }
         .back-btn {
             display: inline-block;
@@ -37,15 +44,23 @@
 </head>
 <body id="project-detail-page">
     
+    <!-- Lightbox de Pantalla Completa -->
+    <div id="lightbox" onclick="closeLightbox()">
+        <img id="lightbox-img" src="" alt="Pantalla Completa">
+    </div>
+
+    <!-- Tooltip de copiado -->
+    <div id="copy-tooltip">Copiado</div>
+
     <!-- Navegación inyectada por JS -->
     <div id="nav-container"></div>
 
     <div class="project-detail-hero">
         <p class="section-subtitle">— PROJECT SHOWCASE</p>
-        <h1 id="project-title" class="accent">Cargando Proyecto...</h1>
+        <h1 id="project-title" class="accent glow-text">Cargando Proyecto...</h1>
         
         <!-- Nueva descripción del proyecto -->
-        <p id="project-desc" style="font-size: 1.1rem; color: var(--text-muted); margin-top: 1rem;"></p>
+        <p id="project-desc" style="font-size: 1.1rem; color: var(--text-muted); margin-top: 1rem; max-width: 900px;"></p>
         
         <!-- Roles/Etiquetas debajo del título -->
         <div id="project-tags" class="project-roles" style="margin-top: 1.5rem;"></div>
@@ -53,15 +68,18 @@
         <!-- Separador -->
         <hr class="divider" style="margin: 3rem 0; width: 100%;">
         
-        <!-- Imagen visual -->
+        <!-- Imagen visual clickeable -->
         <div class="project-media-wrapper" id="project-media">
             [ Espacio para el vídeo o las imágenes de este proyecto ]
         </div>
 
         <div style="max-width: 800px; text-align: left;">
-            <h2>ACERCA DE ESTE PROYECTO</h2>
+            <h2 class="glow-text">ACERCA DE ESTE PROYECTO</h2>
             <p>Esta es una página de ejemplo (Placeholder). Aquí podrás escribir en el futuro la descripción técnica de tu trabajo, qué desafíos superaste en la iluminación o composición, y qué herramientas utilizaste.</p>
         </div>
+        
+        <!-- Contenedor para recomendaciones inyectadas por JS -->
+        <div id="related-sections" style="margin-top: 5rem;"></div>
         
         <a href="https://humbertoferrerbernal.github.io/" class="back-btn">&larr; Volver al Portfolio</a>
     </div>

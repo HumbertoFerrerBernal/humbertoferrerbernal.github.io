@@ -40,6 +40,18 @@
       "title": "Proyecto 02",
       "desc": "Descripción técnica sobre los desafíos de iluminación y composición de este proyecto.",
       "roles": ["nose"]
+    },
+    {
+      "title": "Lighting 1",
+      "desc": "Estudio de iluminación volumétrica y rebotes de color.",
+      "roles": ["Lighting"],
+      "image": "PIC_Sendokai_Miniatura.png"
+    },
+    {
+      "title": "Lighting 2",
+      "desc": "Prueba de renderizado hiperrealista.",
+      "roles": ["Lighting"],
+      "image": "PIC_No_Life_Miniatura.png"
     }
   ]
 }

@@ -15,11 +15,14 @@ body { background-color: var(--bg-color); color: var(--text-main); line-height: 
 /* Tipografía */
 h1 { font-size: 5.5rem; font-weight: 900; line-height: 1.1; } 
 
-/* SUBIDA DE 5px a los h2 (antes 40px, ahora 45px) */
-h2 { font-size: 45px; font-weight: 900; margin-bottom: 2rem; text-transform: uppercase; }
+/* Títulos h2: 55px (más grandes) y todos llevan Glow text-shadow */
+h2 { font-size: 55px; font-weight: 900; margin-bottom: 2rem; text-transform: uppercase; }
 
 .accent { color: var(--accent); }
+
+/* Glow Text Global para Títulos */
 .glow-text { text-shadow: 0 0 15px rgba(229, 185, 26, 0.4), 0 0 30px rgba(229, 185, 26, 0.2); }
+
 .center { text-align: center; }
 .left { text-align: left; }
 
@@ -33,7 +36,7 @@ h2 { font-size: 45px; font-weight: 900; margin-bottom: 2rem; text-transform: upp
 /* Navegación y Dropdown - EXTREMOS DE LA PANTALLA */
 nav {
     display: flex; justify-content: space-between; align-items: center; 
-    padding: 1.5rem 3%; /* Márgenes hacia los lados, pegado al extremo */
+    padding: 1.5rem 3%; 
     position: fixed; width: 100%; top: 0; z-index: 100;
     background: rgba(242, 242, 244, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--card-border);
 }
@@ -59,8 +62,8 @@ nav {
 .hero-content { display: flex; justify-content: flex-start; gap: 6rem; align-items: center; width: 100%; margin-top: 50px; }
 .titles { flex-shrink: 0; }
 
-/* Mover About Me un dedo (aprox 3rem) más a la derecha */
-.about-me { max-width: 450px; font-size: 1.05rem; margin-left: 3rem; }
+/* About Me desplazado a la derecha */
+.about-me { max-width: 450px; font-size: 1.05rem; margin-left: 6rem; }
 
 /* Showreel y Video UI Custom */
 .video-container { 
@@ -68,31 +71,34 @@ nav {
     box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-top: 2rem; 
     border: 2px solid transparent; transition: all 0.3s ease; cursor: pointer;
 }
-/* Estela amarilla al pasar por el vídeo */
 .video-container:hover {
     box-shadow: 0 0 25px rgba(229, 185, 26, 0.4); border-color: var(--accent);
 }
 .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
-/* Superposición del Botón Play */
+/* Superposición del Botón Play y Miniatura */
 .video-overlay {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background-color: #111111; /* Interfaz apagada hasta click */
+    background-color: #111111; 
     z-index: 10; display: flex; align-items: center; justify-content: center;
-    transition: opacity 0.3s;
+    transition: opacity 0.3s; overflow: hidden;
+}
+.video-overlay img {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover; opacity: 0.7; z-index: 1;
 }
 .play-btn {
     width: 80px; height: 80px; background-color: var(--accent);
     border-radius: 50%; display: flex; align-items: center; justify-content: center;
-    color: #fff; font-size: 35px; padding-left: 8px; /* Centrar triangulo */
-    box-shadow: 0 0 20px rgba(229, 185, 26, 0.6); transition: 0.3s;
+    color: #fff; font-size: 35px; padding-left: 8px; 
+    box-shadow: 0 0 20px rgba(229, 185, 26, 0.6); transition: 0.3s; z-index: 2;
 }
 .video-container:hover .play-btn { transform: scale(1.1); }
 
 /* Sections general */
 .section { padding: 5rem 15%; }
 
-/* Skills Grid */
+/* Skills Grid (Cajas blancas de habilidades se mantienen) */
 .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem; }
 .card { background-color: var(--card-bg); padding: 2.5rem; border-radius: 12px; border: 1px solid var(--card-border); transition: all 0.3s ease; }
 .card:hover { box-shadow: 0 0 25px rgba(229, 185, 26, 0.4); transform: translateY(-5px); border-color: var(--accent); }
@@ -101,29 +107,36 @@ nav {
 .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .tag { font-size: 0.7rem; border: 1px solid var(--text-muted); padding: 0.3rem 0.8rem; border-radius: 15px; color: var(--text-muted); font-weight: bold; }
 
-/* Projects Grid */
+
+/* Projects Grid (Rediseño Sin Borde) */
 .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
 .project-card {
-    background-color: var(--card-bg); border-radius: 12px; overflow: hidden; 
-    border: 1px solid var(--card-border); display: block; text-decoration: none; transition: all 0.3s ease;
+    background-color: transparent; border: none; /* Quitamos borde y fondo */
+    display: block; text-decoration: none; transition: all 0.3s ease;
 }
-.project-card:hover { box-shadow: 0 0 25px rgba(229, 185, 26, 0.4); transform: translateY(-5px); border-color: var(--accent); }
 
-/* Cartas de Proyectos Grandes (2 de ancho y 1.5 de alto) */
-.project-card.large { 
-    grid-column: 1 / -1; /* Ocupa las 2 columnas de ancho */
+/* El hover ahora hace brillar y flotar LA IMAGEN, no toda la carta */
+.project-card:hover .project-img { 
+    box-shadow: 0 0 25px rgba(229, 185, 26, 0.4); 
+    border: 2px solid var(--accent);
+    transform: translateY(-5px); 
 }
+
+.project-card.large { grid-column: 1 / -1; }
 .project-card.large .project-img {
-    height: 420px; /* Unos 1.5 veces más alto de lo normal (280) */
+    height: 500px; /* Más largas (antes 420) */
 }
 
 .project-img {
-    height: 280px; width: 100%; background-color: #e0e0e0;
+    height: 350px; /* Más largas (antes 280) */
+    width: 100%; background-color: #e0e0e0;
     display: flex; align-items: center; justify-content: center;
-    color: var(--text-muted); font-weight: bold; font-size: 1.2rem; overflow: hidden;
+    color: var(--text-muted); font-weight: bold; font-size: 1.2rem; 
+    overflow: hidden; border-radius: 12px; border: 2px solid transparent;
+    transition: all 0.3s ease;
 }
-.project-info { padding: 1.5rem; }
-.project-info h3 { margin-bottom: 0.5rem; color: var(--text-main); }
+.project-info { padding: 1.5rem 0 0 0; text-align: left; }
+.project-info h3 { margin-bottom: 0.5rem; color: var(--text-main); font-size: 1.5rem; }
 .project-roles { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .role-tag {
     font-size: 0.65rem; background: rgba(229, 185, 26, 0.2); color: #9A7B0E;
@@ -154,13 +167,11 @@ nav {
 /* Footer - EXTREMOS DE LA PANTALLA */
 .footer {
     display: flex; justify-content: space-between; align-items: center; 
-    padding: 3rem 3%; /* Márgenes pegados a los extremos igual que el Nav */
+    padding: 3rem 3%; 
     border-top: 1px solid var(--card-border); font-size: 0.75rem; text-transform: uppercase; font-weight: bold;
     color: var(--text-muted); background-color: var(--bg-color); position: relative;
 }
 .footer-left strong { color: var(--text-main); font-size: 1rem; }
-
-/* Centrado exacto del medio */
 .footer-center {
     position: absolute; left: 50%; transform: translateX(-50%);
     display: flex; align-items: center; gap: 1rem;
@@ -169,3 +180,26 @@ nav {
 .footer-center a:hover { color: var(--accent); }
 .footer-right .copyright { font-size: 0.65rem; font-weight: normal; }
 .separator { margin: 0 0.5rem; opacity: 0.5; }
+
+/* Lightbox de Imagen (Fullscreen) */
+#lightbox {
+    display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.9); z-index: 1000; align-items: center; justify-content: center;
+    cursor: zoom-out;
+}
+#lightbox img { max-width: 90%; max-height: 90%; border-radius: 12px; box-shadow: 0 0 30px rgba(0,0,0,0.8); }
+
+/* Tooltip Copiado */
+#copy-tooltip {
+    position: fixed; background: var(--accent); color: #000; padding: 6px 12px;
+    border-radius: 6px; font-weight: bold; pointer-events: none; opacity: 0;
+    transition: opacity 0.2s; z-index: 9999; font-size: 0.8rem;
+}
+
+/* Mini Grid Recomendaciones */
+.mini-projects-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;
+}
+.mini-projects-grid .project-img { height: 130px; border-radius: 8px; }
+.mini-projects-grid .project-info { padding: 0.5rem 0 0 0; }
+.mini-projects-grid h4 { font-size: 0.9rem; margin: 0; }

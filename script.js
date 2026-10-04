@@ -24,6 +24,35 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(error => console.error('Error cargando el JSON:', error));
 });
 
+// Función para copiar Email al portapapeles y mostrar "Copiado"
+function copyEmail(e, email) {
+    e.preventDefault();
+    navigator.clipboard.writeText(email).then(() => {
+        const tooltip = document.getElementById('copy-tooltip');
+        if(tooltip) {
+            tooltip.style.left = (e.clientX + 15) + 'px';
+            tooltip.style.top = (e.clientY + 15) + 'px';
+            tooltip.style.opacity = 1;
+            setTimeout(() => tooltip.style.opacity = 0, 1500);
+        }
+    });
+}
+
+// Lightbox para la imagen individual
+function openLightbox(src) {
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightbox-img');
+    if(lb && lbImg) {
+        lbImg.src = src;
+        lb.style.display = 'flex';
+    }
+}
+
+function closeLightbox() {
+    const lb = document.getElementById('lightbox');
+    if(lb) lb.style.display = 'none';
+}
+
 // Reproductor de Vimeo Custom
 function setupVideo() {
     const overlay = document.getElementById('video-overlay');
@@ -31,7 +60,6 @@ function setupVideo() {
         overlay.addEventListener('click', () => {
             overlay.style.display = 'none';
             const iframe = document.getElementById('vimeo-iframe');
-            // Añadimos autoplay a la url para que comience al hacer click
             iframe.src += "?autoplay=1";
         });
     }
@@ -43,7 +71,6 @@ function renderNav() {
         `<a href="project-placeholder.html?title=${encodeURIComponent(p.title)}">${p.title}</a>`
     ).join('');
     
-    // Todos los links apuntan directamente al dominio final
     const navHtml = `
     <nav>
         <div class="logo">
@@ -73,7 +100,7 @@ function renderFooter() {
             <strong>HUMBERTO FERRER</strong>
         </div>
         <div class="footer-center">
-            <a href="mailto:humberto.ferrer.bernal@gmail.com">HUMBERTO.FERRER.BERNAL@GMAIL.COM</a>
+            <a href="#" onclick="copyEmail(event, 'humberto.ferrer.bernal@gmail.com')">HUMBERTO.FERRER.BERNAL@GMAIL.COM</a>
             <span class="separator">·</span>
             <a href="https://www.linkedin.com/in/humberto-ferrer-bernal/" target="_blank">LINKEDIN - HUMBERTO FERRER</a>
             <span class="separator">·</span>
@@ -107,6 +134,8 @@ function loadProjects(projects, containerId) {
     if (!container) return;
     
     projects.forEach(project => {
+        // Para filtrar los que son solo álbum de la pantalla principal (si quisieras no mezclarlos)
+        // Por ahora los carga tal cual
         const rolesHtml = project.roles ? project.roles.map(role => `<span class="role-tag">${role}</span>`).join('') : '';
         const largeClass = project.size === 'large' ? 'large' : '';
         
@@ -131,6 +160,33 @@ function loadProjects(projects, containerId) {
     });
 }
 
+// Función auxiliar para crear cuadrículas pequeñas
+function buildRelatedSection(titleText, items) {
+    if (!items || items.length === 0) return '';
+    let html = `<h3 class="accent" style="margin: 3rem 0 1rem 0; font-size: 1.2rem; letter-spacing: 2px;">${titleText}</h3>`;
+    html += `<div class="mini-projects-grid">`;
+    
+    items.forEach(project => {
+        let imgContent = `Landscape Placeholder`;
+        if (project.image) {
+            const fallbackImg = project.image.replace('.png', '.jpg');
+            imgContent = `<img src="${project.image}" alt="${project.title}" onerror="this.onerror=null; this.src='${fallbackImg}';" style="width:100%; height:100%; object-fit:cover;">`;
+        }
+        const linkUrl = `project-placeholder.html?title=${encodeURIComponent(project.title)}`;
+        
+        html += `
+            <a href="${linkUrl}" class="project-card">
+                <div class="project-img">${imgContent}</div>
+                <div class="project-info">
+                    <h4 style="color:var(--text-main);">${project.title}</h4>
+                </div>
+            </a>
+        `;
+    });
+    html += `</div>`;
+    return html;
+}
+
 function loadProjectDetails() {
     const urlParams = new URLSearchParams(window.location.search);
     const title = urlParams.get('title') || 'Proyecto Desconocido';
@@ -150,15 +206,40 @@ function loadProjectDetails() {
         const rolesHtml = project.roles ? project.roles.map(role => `<span class="role-tag">${role}</span>`).join('') : '';
         document.getElementById('project-tags').innerHTML = rolesHtml;
         
-        // Imagen
+        // Imagen Clickeable para Lightbox
+        const wrapper = document.getElementById('project-media');
         if (project.image) {
             const fallbackImg = project.image.replace('.png', '.jpg');
-            document.getElementById('project-media').innerHTML = `<img src="${project.image}" alt="${project.title}" onerror="this.onerror=null; this.src='${fallbackImg}';" style="width:100%; height:100%; object-fit:cover;">`;
+            wrapper.innerHTML = `<img src="${project.image}" alt="${project.title}" onerror="this.onerror=null; this.src='${fallbackImg}';" style="width:100%; height:100%; object-fit:cover;">`;
+            wrapper.onclick = function() {
+                const img = this.querySelector('img');
+                if(img) openLightbox(img.src);
+            };
         } else {
-             // Si el titulo lleva "Lighting" (es un enlace de album)
              if(title.includes("Lighting")) {
-                 document.getElementById('project-media').innerHTML = `<div style="font-size:2rem;">${title}</div>`;
+                 wrapper.innerHTML = `<div style="font-size:2rem;">${title}</div>`;
              }
         }
     }
+    
+    // Recomendaciones en la parte inferior
+    const isAlbum = title.toLowerCase().includes('lighting');
+    
+    // Filtramos para conseguir los arrays de albums y de proyectos excluyendo el actual
+    const albums = portfolioData.projects.filter(p => p.title.toLowerCase().includes('lighting') && p.title !== title);
+    const projects = portfolioData.projects.filter(p => !p.title.toLowerCase().includes('lighting') && p.title !== title);
+    
+    let relatedHtml = '';
+    
+    if (isAlbum) {
+        // En un album mostramos primero ANOTHER GALLERY y luego ANOTHER PROJECTS
+        relatedHtml += buildRelatedSection('ANOTHER GALLERY::', albums);
+        relatedHtml += buildRelatedSection('ANOTHER PROJECTS::', projects);
+    } else {
+        // En un proyecto mostramos primero ANOTHER PROJECTS y luego OTHER ALBUM
+        relatedHtml += buildRelatedSection('ANOTHER PROJECTS::', projects);
+        relatedHtml += buildRelatedSection('OTHER ALBUM::', albums);
+    }
+    
+    document.getElementById('related-sections').innerHTML = relatedHtml;
 }

@@ -8,6 +8,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Tooltip de copiado -->
+    <div id="copy-tooltip">Copiado</div>
+
     <!-- Navegación inyectada por JS -->
     <div id="nav-container"></div>
 
@@ -17,7 +20,7 @@
         <div class="hero-content">
             <div class="titles">
                 <h1 class="accent glow-text">LIGHTING &</h1>
-                <h1 class="glow-text">COMPOSITING<br>ARTIST</h1>
+                <h1 class="accent glow-text">COMPOSITING<br>ARTIST</h1>
             </div>
             <div class="about-me">
                 <p class="section-subtitle">— ABOUT ME</p>
@@ -31,9 +34,11 @@
     <!-- Sección Showreel -->
     <section id="showreel" class="section">
         <p class="section-subtitle left">— Lighting and Compositing</p>
-        <h2 class="left accent">SHOWREEL</h2>
+        <h2 class="left accent glow-text">SHOWREEL</h2>
         <div class="video-container" id="video-wrapper">
             <div class="video-overlay" id="video-overlay">
+                <!-- Miniatura antes del play -->
+                <img src="PIC_Showreel_Miniatura.jpg" onerror="this.onerror=null; this.src='PIC_Showreel_Miniatura.png';" alt="Showreel Thumbnail">
                 <div class="play-btn">&#9658;</div>
             </div>
             <iframe id="vimeo-iframe" src="https://player.vimeo.com/video/1227875291" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
@@ -45,7 +50,7 @@
     <!-- Sección Habilidades -->
     <section id="skills" class="section">
         <p class="section-subtitle center">— WHAT I DO</p>
-        <h2 class="center">SKILLS</h2>
+        <h2 class="center glow-text">SKILLS</h2>
         <div class="grid-container" id="skills-container">
             <!-- Los datos se inyectarán aquí vía JavaScript -->
         </div>
@@ -56,7 +61,7 @@
     <!-- Sección Proyectos -->
     <section id="projects" class="section">
         <p class="section-subtitle left">— SELECTED WORK</p>
-        <h2 class="left accent">FEATURED PROJECTS</h2>
+        <h2 class="left accent glow-text">FEATURED PROJECTS</h2>
         <div class="projects-grid" id="projects-container">
             <!-- Los datos se inyectarán aquí vía JavaScript -->
         </div>
@@ -67,14 +72,14 @@
     <!-- Sección ALBUM -->
     <section id="album" class="section">
         <p class="section-subtitle left">— EXPLORE MORE</p>
-        <h2 class="left accent">ALBUM</h2>
+        <h2 class="left accent glow-text">ALBUM</h2>
         <div class="projects-grid">
-            <a href="project-placeholder.html?title=Lighting%201" class="project-card"><div class="project-img">Lighting 1</div></a>
-            <a href="project-placeholder.html?title=Lighting%202" class="project-card"><div class="project-img">Lighting 2</div></a>
-            <a href="project-placeholder.html?title=Lighting%203" class="project-card"><div class="project-img">Lighting 3</div></a>
-            <a href="project-placeholder.html?title=Lighting%204" class="project-card"><div class="project-img">Lighting 4</div></a>
-            <a href="project-placeholder.html?title=Lighting%205" class="project-card"><div class="project-img">Lighting 5</div></a>
-            <a href="project-placeholder.html?title=Lighting%206" class="project-card"><div class="project-img">Lighting 6</div></a>
+            <a href="project-placeholder.html?title=Lighting%201" class="project-card"><div class="project-img">Lighting 1</div><div class="project-info"><h3>Lighting 1</h3></div></a>
+            <a href="project-placeholder.html?title=Lighting%202" class="project-card"><div class="project-img">Lighting 2</div><div class="project-info"><h3>Lighting 2</h3></div></a>
+            <a href="project-placeholder.html?title=Lighting%203" class="project-card"><div class="project-img">Lighting 3</div><div class="project-info"><h3>Lighting 3</h3></div></a>
+            <a href="project-placeholder.html?title=Lighting%204" class="project-card"><div class="project-img">Lighting 4</div><div class="project-info"><h3>Lighting 4</h3></div></a>
+            <a href="project-placeholder.html?title=Lighting%205" class="project-card"><div class="project-img">Lighting 5</div><div class="project-info"><h3>Lighting 5</h3></div></a>
+            <a href="project-placeholder.html?title=Lighting%206" class="project-card"><div class="project-img">Lighting 6</div><div class="project-info"><h3>Lighting 6</h3></div></a>
         </div>
     </section>
 
@@ -90,12 +95,12 @@
             </div>
             <div class="contact-info">
                 <p class="section-subtitle">— GET IN TOUCH</p>
-                <h2>CONTACT</h2>
+                <h2 class="glow-text">CONTACT</h2>
                 <p>I like jumping between departments and formats, from a scene's first lighting pass to the final compositing integration. If you have a <strong>film, game or audiovisual project</strong> that needs a versatile artist, let's make it look amazing.</p>
-                <a href="mailto:humberto.ferrer.bernal@gmail.com" class="btn-primary">LET'S WORK TOGETHER &rarr;</a>
+                <a href="#" onclick="copyEmail(event, 'humberto.ferrer.bernal@gmail.com')" class="btn-primary">LET'S WORK TOGETHER &rarr;</a>
                 
                 <div class="social-links">
-                    <a href="mailto:humberto.ferrer.bernal@gmail.com">MAIL</a>
+                    <a href="#" onclick="copyEmail(event, 'humberto.ferrer.bernal@gmail.com')">MAIL</a>
                     <a href="https://www.linkedin.com/in/humberto-ferrer-bernal/" target="_blank">LINKEDIN</a>
                     <a href="http://artstation.com/humbfbx" target="_blank">ARTSTATION</a>
                 </div>
