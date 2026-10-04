@@ -1,0 +1,33 @@
+{
+  "skills": [
+    {
+      "title": "3D ANIMATION",
+      "description": "Keyframe and motion-capture performance in Maya, grounded in solid acting fundamentals and body mechanics. Facial animation and animation supervision across realistic and stylized productions.",
+      "tags": ["MAYA", "KEYFRAME", "MOCAP", "FACIAL", "BODY MECHANICS"]
+    },
+    {
+      "title": "MODELING & TEXTURING",
+      "description": "Organic and hard-surface modeling with clean UV mapping, plus texturing and lookdev for both realistic and stylized characters and props. Built with Maya, ZBrush, Substance Painter and Mari.",
+      "tags": ["MAYA", "ZBRUSH", "UV MAPPING", "SUBSTANCE", "LOOKDEV"]
+    },
+    {
+      "title": "CHARACTER FX",
+      "description": "Lead CFX on cloth and jewelry simulations for hero characters, with Marvelous Designer and Houdini.",
+      "tags": ["CLOTH SIM", "HOUDINI", "MARVELOUS"]
+    }
+  ],
+  "projects": [
+    {
+      "title": "STIGMA SHORTFILM",
+      "roles": ["ANIMATION SUPERVISOR", "LEAD CFX", "CHARACTER MODELING"]
+    },
+    {
+      "title": "RAZZMATAZZ AUDIOVISUALS",
+      "roles": ["DJ VISUALS", "3D MODELS"]
+    },
+    {
+      "title": "OUR LAST WALK",
+      "roles": ["ANIMATION", "CHARACTER ART"]
+    }
+  ]
+}

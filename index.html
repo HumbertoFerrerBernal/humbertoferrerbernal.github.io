@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Artista 3D</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navegación -->
+    <nav>
+        <div class="logo">🌙 LUNA GHISO</div>
+        <ul class="nav-links">
+            <li><a href="#home">HOME</a></li>
+            <li><a href="#projects">PROJECTS</a></li>
+            <li><a href="#contact" class="btn-contact">CONTACT</a></li>
+        </ul>
+    </nav>
+
+    <!-- Sección Hero -->
+    <header id="home" class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="titles">
+                <h1 class="accent">ANIMATOR &</h1>
+                <h1>CHARACTER<br>ARTIST</h1>
+            </div>
+            <div class="about-me">
+                <p class="section-subtitle">— ABOUT ME</p>
+                <p>3D Artist focused on <strong>character animation and visual storytelling</strong>. Versatile across departments and equally at home in <strong>audiovisuals, cinema and video games</strong>.</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sección Habilidades (Cargada desde JSON) -->
+    <section id="skills" class="section">
+        <p class="section-subtitle center">— WHAT I DO</p>
+        <h2 class="center">SKILLS</h2>
+        <div class="grid-container" id="skills-container">
+            <!-- Los datos se inyectarán aquí vía JavaScript -->
+        </div>
+    </section>
+
+    <!-- Sección Proyectos (Cargada desde JSON) -->
+    <section id="projects" class="section">
+        <p class="section-subtitle center">— SELECTED WORK</p>
+        <h2 class="center accent">FEATURED PROJECTS</h2>
+        <div class="projects-grid" id="projects-container">
+            <!-- Los datos se inyectarán aquí vía JavaScript -->
+        </div>
+    </section>
+
+    <!-- Sección Contacto -->
+    <section id="contact" class="section contact-section">
+        <div class="contact-container">
+            <div class="contact-img">
+                <div class="img-placeholder">Foto de Perfil</div>
+            </div>
+            <div class="contact-info">
+                <p class="section-subtitle">— GET IN TOUCH</p>
+                <h2>CONTACT</h2>
+                <p>I like jumping between departments and formats, from a character's first blocking pass to the final cloth sim. If you have a <strong>film, game or audiovisual project</strong> that needs a versatile animator and character artist, let's make it move.</p>
+                <a href="#" class="btn-primary">LET'S WORK TOGETHER &rarr;</a>
+                
+                <div class="social-links">
+                    <a href="#">EMAIL</a>
+                    <a href="#">LINKEDIN</a>
+                    <a href="#">ARTSTATION</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+/* Variables de Color basadas en tus imágenes */
+:root {
+    --bg-color: #0d0d12;
+    --card-bg: #1c1c21;
+    --text-main: #ffffff;
+    --text-muted: #a0a0a5;
+    --accent: #e07a8b; /* Rosa/Salmón */
+    --accent-hover: #c96575;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.6;
+}
+
+/* Tipografía */
+h1 { font-size: 4rem; font-weight: 900; line-height: 1.1; }
+h2 { font-size: 2.5rem; font-weight: 900; margin-bottom: 2rem; }
+.accent { color: var(--accent); }
+.center { text-align: center; }
+.section-subtitle {
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+
+/* Navegación */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 4rem;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 100;
+    background: rgba(13, 13, 18, 0.9);
+    backdrop-filter: blur(10px);
+}
+.logo { font-weight: bold; font-size: 1.2rem; }
+.nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+.nav-links a { color: var(--text-main); text-decoration: none; font-size: 0.8rem; font-weight: bold; }
+.btn-contact {
+    background-color: var(--accent);
+    padding: 0.5rem 1.5rem;
+    border-radius: 20px;
+    transition: 0.3s;
+}
+.btn-contact:hover { background-color: var(--accent-hover); }
+
+/* Hero Section */
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 0 10%;
+    position: relative;
+    background: linear-gradient(to right, rgba(13,13,18,1) 30%, rgba(13,13,18,0) 100%);
+}
+.hero-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    z-index: 2;
+}
+.about-me { max-width: 400px; }
+
+/* Sections */
+.section { padding: 5rem 10%; }
+
+/* Skills Grid */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+.card {
+    background-color: var(--card-bg);
+    padding: 2.5rem;
+    border-radius: 12px;
+}
+.card h3 { color: var(--accent); margin-bottom: 1rem; }
+.card p { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.5rem; }
+.tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.tag {
+    font-size: 0.7rem;
+    border: 1px solid var(--text-muted);
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    color: var(--text-muted);
+}
+
+/* Projects Grid */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+}
+.project-card {
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+}
+.project-img {
+    height: 250px;
+    background-color: #2a2a30; /* Placeholder for images */
+}
+.project-info { padding: 1.5rem; }
+.project-info h3 { margin-bottom: 0.5rem; }
+.project-roles { display: flex; gap: 0.5rem; }
+.role-tag {
+    font-size: 0.6rem;
+    background: rgba(224, 122, 139, 0.2);
+    color: var(--accent);
+    padding: 0.2rem 0.6rem;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+/* Contact */
+.contact-container {
+    display: flex;
+    gap: 4rem;
+    align-items: center;
+    background-color: var(--card-bg);
+    padding: 4rem;
+    border-radius: 20px;
+}
+.contact-img .img-placeholder {
+    width: 300px; height: 300px;
+    background: #fff; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center; color: #000;
+}
+.btn-primary {
+    display: inline-block;
+    background-color: var(--accent);
+    color: #fff; text-decoration: none;
+    padding: 1rem 2rem; border-radius: 25px;
+    font-weight: bold; margin: 1.5rem 0;
+}
+.social-links {
+    display: flex; gap: 1rem;
+}
+.social-links a {
+    border: 1px solid var(--text-muted);
+    color: var(--text-main);
+    text-decoration: none; padding: 0.5rem 1rem;
+    border-radius: 20px; font-size: 0.8rem;
+}
