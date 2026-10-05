@@ -21,9 +21,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Página de Detalles del Proyecto
                 loadProjectDetails();
             }
+
+            // 3. Inicializamos las animaciones de scroll
+            setTimeout(initScrollAnimations, 50);
         })
         .catch(error => console.error('Error cargando el JSON:', error));
 });
+
+// Animaciones On-Scroll
+function initScrollAnimations() {
+    const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                obs.unobserve(entry.target); // Dejar de observar para que se anime solo 1 vez
+            }
+        });
+    }, {
+        threshold: 0.1, // Se activa cuando el 10% del bloque es visible
+        rootMargin: "0px 0px -50px 0px"
+    });
+
+    document.querySelectorAll('.reveal').forEach(el => {
+        observer.observe(el);
+    });
+}
 
 // Función para copiar Email al portapapeles y mostrar "Copiado"
 function copyEmail(e, email) {
@@ -120,7 +142,7 @@ function loadSkills(skills) {
     skills.forEach(skill => {
         const tagsHtml = skill.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
         const cardHtml = `
-            <div class="card">
+            <div class="card reveal">
                 <h3>${skill.title}</h3>
                 <p>${skill.description}</p>
                 <div class="tags">${tagsHtml}</div>
@@ -148,7 +170,7 @@ function loadProjects(items, containerId) {
         const linkUrl = `project-placeholder.html?title=${encodeURIComponent(item.title)}`;
         
         const cardHtml = `
-            <a href="${linkUrl}" class="project-card ${largeClass}">
+            <a href="${linkUrl}" class="project-card ${largeClass} reveal">
                 <div class="project-img">${imgContent}</div>
                 <div class="project-info">
                     <h3>${item.title}</h3>
@@ -163,7 +185,7 @@ function loadProjects(items, containerId) {
 // Función auxiliar para crear cuadrículas pequeñas
 function buildRelatedSection(titleText, items) {
     if (!items || items.length === 0) return '';
-    let html = `<h3 class="accent" style="margin: 3rem 0 1rem 0; font-size: 1.2rem; letter-spacing: 2px;">${titleText}</h3>`;
+    let html = `<h3 class="accent reveal" style="margin: 3rem 0 1rem 0; font-size: 1.2rem; letter-spacing: 2px;">${titleText}</h3>`;
     html += `<div class="mini-projects-grid">`;
     
     items.forEach(item => {
@@ -175,7 +197,7 @@ function buildRelatedSection(titleText, items) {
         const linkUrl = `project-placeholder.html?title=${encodeURIComponent(item.title)}`;
         
         html += `
-            <a href="${linkUrl}" class="project-card">
+            <a href="${linkUrl}" class="project-card reveal">
                 <div class="project-img">${imgContent}</div>
                 <div class="project-info">
                     <h4>${item.title}</h4>

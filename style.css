@@ -104,7 +104,6 @@ nav {
 .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .tag { font-size: 0.7rem; border: 1px solid var(--text-muted); padding: 0.3rem 0.8rem; border-radius: 15px; color: var(--text-muted); font-weight: bold; }
 
-
 /* Projects Grid */
 .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
 
@@ -139,7 +138,6 @@ nav {
 
 .project-img img {
     width: 100%; height: 100%; object-fit: cover;
-    /* Zoom animation removed */
 }
 
 .project-info { 
@@ -229,7 +227,22 @@ nav {
 }
 .mini-projects-grid .project-card {
     height: auto; 
-    aspect-ratio: 16 / 9; /* Forzamos aspecto 16:9, más largos horizontal/verticalmente proporcionados */
+    aspect-ratio: 16 / 9; 
 }
 .mini-projects-grid .project-info { padding: 1.2rem; }
 .mini-projects-grid h4 { font-size: 1.1rem; margin: 0; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+
+/* ========================================= */
+/*       ANIMACIONES DE SCROLL (FADE IN)     */
+/* ========================================= */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    will-change: opacity, transform;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
