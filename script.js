@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Página Principal
                 loadSkills(data.skills);
                 loadProjects(data.projects, 'projects-container');
-                loadProjects(data.album, 'album-container');
+                loadProjects(data.gallery, 'gallery-container');
                 setupVideo();
             } else if (document.getElementById('project-detail-page')) {
                 // Página de Detalles del Proyecto
@@ -66,7 +66,7 @@ function setupVideo() {
     }
 }
 
-// Inyecta el menú (mismos enlaces en todas partes - solo extraídos de projects)
+// Inyecta el menú
 function renderNav() {
     const dropdownLinks = portfolioData.projects.map(p => 
         `<a href="project-placeholder.html?title=${encodeURIComponent(p.title)}">${p.title}</a>`
@@ -85,7 +85,7 @@ function renderNav() {
                     ${dropdownLinks}
                 </div>
             </li>
-            <li><a href="https://humbertoferrerbernal.github.io/#album">ALBUM</a></li>
+            <li><a href="https://humbertoferrerbernal.github.io/#gallery">GALLERY</a></li>
             <li><a href="https://humbertoferrerbernal.github.io/#contact" class="btn-contact">CONTACT</a></li>
         </ul>
     </nav>
@@ -147,7 +147,6 @@ function loadProjects(items, containerId) {
             
         const linkUrl = `project-placeholder.html?title=${encodeURIComponent(item.title)}`;
         
-        // Estructura overlay sin div de degradado (se ha quitado .project-overlay del CSS/HTML general)
         const cardHtml = `
             <a href="${linkUrl}" class="project-card ${largeClass}">
                 <div class="project-img">${imgContent}</div>
@@ -195,13 +194,13 @@ function loadProjectDetails() {
     document.getElementById('project-title').textContent = title;
     document.title = title + " | Humberto Ferrer";
     
-    // Buscamos si es proyecto normal o de album
+    // Buscamos si es proyecto normal o de gallery
     let project = portfolioData.projects.find(p => p.title === title);
-    let isAlbum = false;
+    let isGallery = false;
     
     if (!project) {
-        project = portfolioData.album.find(a => a.title === title);
-        isAlbum = true;
+        project = portfolioData.gallery.find(a => a.title === title);
+        isGallery = true;
     }
     
     if (project) {
@@ -228,17 +227,17 @@ function loadProjectDetails() {
     }
     
     // Recomendaciones en la parte inferior filtrando el actual
-    const relatedAlbums = portfolioData.album.filter(a => a.title !== title);
+    const relatedGallery = portfolioData.gallery.filter(a => a.title !== title);
     const relatedProjects = portfolioData.projects.filter(p => p.title !== title);
     
     let relatedHtml = '';
     
-    if (isAlbum) {
-        relatedHtml += buildRelatedSection('ANOTHER GALLERY::', relatedAlbums);
-        relatedHtml += buildRelatedSection('ANOTHER PROJECTS::', relatedProjects);
+    if (isGallery) {
+        relatedHtml += buildRelatedSection('OTHER GALLERY:', relatedGallery);
+        relatedHtml += buildRelatedSection('OTHER PROJECTS:', relatedProjects);
     } else {
-        relatedHtml += buildRelatedSection('ANOTHER PROJECTS::', relatedProjects);
-        relatedHtml += buildRelatedSection('OTHER ALBUM::', relatedAlbums);
+        relatedHtml += buildRelatedSection('OTHER PROJECTS:', relatedProjects);
+        relatedHtml += buildRelatedSection('OTHER GALLERY:', relatedGallery);
     }
     
     document.getElementById('related-sections').innerHTML = relatedHtml;

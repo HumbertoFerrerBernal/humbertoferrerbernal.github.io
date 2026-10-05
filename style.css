@@ -105,7 +105,7 @@ nav {
 .tag { font-size: 0.7rem; border: 1px solid var(--text-muted); padding: 0.3rem 0.8rem; border-radius: 15px; color: var(--text-muted); font-weight: bold; }
 
 
-/* Projects Grid (Rediseño Sin Degradado Negro) */
+/* Projects Grid */
 .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
 
 .project-card {
@@ -122,13 +122,10 @@ nav {
 
 .project-card.large { grid-column: 1 / -1; height: 600px; }
 
+/* Efecto hover: Solo se eleva y brilla el borde, SIN ZOOM */
 .project-card:hover { 
     box-shadow: 0 0 25px rgba(229, 185, 26, 0.5); 
     transform: translateY(-5px); 
-}
-
-.project-card:hover .project-img img {
-    transform: scale(1.05);
 }
 
 .project-img {
@@ -142,10 +139,9 @@ nav {
 
 .project-img img {
     width: 100%; height: 100%; object-fit: cover;
-    transition: transform 0.5s ease;
+    /* Zoom animation removed */
 }
 
-/* Quitamos el degradado negro, pero dejamos la información en su sitio */
 .project-info { 
     position: absolute; bottom: 0; left: 0; width: 100%;
     padding: 2.5rem 2rem; 
@@ -157,7 +153,6 @@ nav {
     margin-bottom: 0.8rem; 
     color: #ffffff; 
     font-size: 1.8rem; 
-    /* Mantenemos un shadow sutil en el texto para que se lea si la imagen es blanca, sin manchar el fondo */
     text-shadow: 0 2px 4px rgba(0,0,0,0.8);
 }
 
