@@ -1,99 +1,89 @@
-<!DOCTYPE html>
-<html lang="es" data-theme="dark">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Humberto Ferrer</title>
-    <!-- FAVICON / LOGO PESTAÑA NAVEGADOR -->
-    <link rel="icon" type="image/png" href="PIC_Logo.png">
-    <link rel="shortcut icon" href="PIC_Logo.png" type="image/x-icon">
-    
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
-</head>
-<body>
-    <div id="copy-tooltip">Copiado</div>
-    <div id="nav-container"></div>
-
-    <header id="home" class="hero">
-        <div class="hero-overlay"></div>
-        <div class="hero-content reveal">
-            <div class="titles">
-                <p class="hero-greeting">Hello! I'm <strong>Humberto Ferrer</strong> and I am a</p>
-                <h1 class="accent glow-text">LIGHTING &</h1>
-                <h1 class="accent glow-text">COMPOSITING ARTIST</h1>
-            </div>
-        </div>
-    </header>
-
-    <section id="showreel" class="section showreel-section">
-        <h2 class="left accent glow-text reveal showreel-title">SHOWREEL</h2>
-        <div class="showreel-bio reveal">
-            <p>This showreel presents a selection of professional 3D lighting and compositing work developed over the past years across various film, animation and VFX productions. It highlights a range of shot finaling tasks including CG lighting, look development, rendering, visual integration, color grading, and digital compositing.</p>
-            <p>Tools used across projects include industry-standard software such as Maya, Nuke, Arnold and other professional production pipelines.</p>
-        </div>
-        <div class="video-container reveal" id="video-wrapper">
-            <div class="video-overlay" id="video-overlay">
-                <img src="PIC_Showreel_Miniatura.jpg" onerror="this.onerror=null; this.src='PIC_Showreel_Miniatura.png';" alt="Showreel Thumbnail">
-                <div class="play-btn">&#9658;</div>
-            </div>
-            <iframe id="vimeo-iframe" src="https://player.vimeo.com/video/1227875291" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
-        </div>
-    </section>
-
-    <hr class="divider reveal">
-
-    <section id="projects" class="section">
-        <h2 class="left accent glow-text reveal">FEATURED PROJECTS & WORKS</h2>
-        <div class="projects-grid featured-grid" id="projects-container"></div>
-    </section>
-
-    <hr class="divider reveal">
-
-    <section id="gallery" class="section">
-        <h2 class="left accent glow-text reveal">GALLERY</h2>
-        <div class="projects-grid gallery-grid-2col" id="gallery-container"></div>
-    </section>
-
-    <hr class="divider reveal">
-
-    <section id="contact" class="section contact-section">
-        <div class="contact-container reveal">
-            <div class="contact-img">
-                <div class="img-placeholder">
-                    <img src="PIC_Contact_Portrait.jpg" onerror="this.onerror=null; this.src='PIC_Contact_Portrait.png';" alt="Foto Contacto" style="width:100%; height:100%; object-fit:cover; border-radius:12px; display:block;">
-                </div>
-            </div>
-            <div class="contact-info">
-                <p class="section-subtitle">— GET IN TOUCH</p>
-                <h2 class="contact-title">CONTACT</h2>
-                
-                <p class="contact-bio">
-                    <strong>Lighting and Compositing Artist</strong> focused on mood, visual storytelling, and cinematic impact. Experienced in creating rich atmospheres and seamlessly integrating elements for <strong>audiovisuals, cinema, and video games</strong>.
-                </p>
-                
-                <a href="#" onclick="highlightContactButtons(event)" class="btn-primary">LET'S WORK TOGETHER</a>
-                
-                <div class="social-links">
-                    <div class="mail-expand-wrapper glow-target" id="mail-wrapper" onclick="toggleMailExpand(event)">
-                        <span class="mail-btn-text">MAIL</span>
-                        <span class="mail-expanded-address">: humberto.ferrer.bernal@gmail.com</span>
-                    </div>
-                    
-                    <a href="https://www.linkedin.com/in/humberto-ferrer-bernal/" target="_blank">LINKEDIN</a>
-                    <a href="http://artstation.com/humbfbx" target="_blank">ARTSTATION</a>
-                    
-                    <div class="phone-expand-wrapper glow-target" id="phone-wrapper" onclick="togglePhoneExpand(event)">
-                        <span class="phone-btn-text">PHONE</span>
-                        <span class="phone-expanded-address">: +34 644 755 446</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div id="footer-container"></div>
-
-    <script src="script.js"></script>
-</body>
+<!DOCTYPE html> 
+<html lang="es" data-theme="dark"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Humberto Ferrer</title> 
+    <!-- FAVICON / LOGO PESTAÑA NAVEGADOR --> 
+    <link rel="icon" type="image/png" href="PIC_Logo.png"> 
+    <link rel="shortcut icon" href="PIC_Logo.png" type="image/x-icon"> 
+         
+    <link rel="stylesheet" href="style.css"> 
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet"> 
+</head> 
+<body> 
+    <div id="copy-tooltip">Copiado</div> 
+    <div id="nav-container"></div> 
+    <header id="home" class="hero"> 
+        <div class="hero-overlay"></div> 
+        <div class="hero-content reveal"> 
+            <div class="titles"> 
+                <p class="hero-greeting">Hello! I'm <strong>Humberto Ferrer</strong> and I am a</p> 
+                <h1 class="accent glow-text">LIGHTING &</h1> 
+                <h1 class="accent glow-text">COMPOSITING ARTIST</h1> 
+            </div> 
+        </div> 
+    </header> 
+    <section id="showreel" class="section showreel-section"> 
+        <h2 class="left accent glow-text reveal showreel-title">SHOWREEL</h2> 
+        <div class="showreel-bio reveal"> 
+            <p>This showreel presents a selection of professional 3D lighting and compositing work developed over the past years across various film, animation and VFX productions. It highlights a range of shot finaling tasks including CG lighting, look development, rendering, visual integration, color grading, and digital compositing.</p> 
+            <p>Tools used across projects include industry-standard software such as Maya, Nuke, Arnold and other professional production pipelines.</p> 
+        </div> 
+        <div class="video-container reveal" id="video-wrapper"> 
+            <div class="video-overlay" id="video-overlay"> 
+                <img src="PIC_Showreel_Miniatura.jpg" onerror="this.onerror=null; this.src='PIC_Showreel_Miniatura.png';" alt="Showreel Thumbnail"> 
+                <div class="play-btn">&#9658;</div> 
+            </div> 
+            <iframe id="vimeo-iframe" src="https://player.vimeo.com/video/1227875291" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe> 
+        </div> 
+    </section> 
+    <hr class="divider reveal"> 
+    <section id="projects" class="section"> 
+        <h2 class="left accent glow-text reveal">FEATURED PROJECTS & WORKS</h2> 
+        <div class="projects-grid featured-grid" id="projects-container"></div> 
+    </section> 
+    <hr class="divider reveal"> 
+    <section id="gallery" class="section"> 
+        <h2 class="left accent glow-text reveal">GALLERY</h2> 
+        <div class="projects-grid gallery-grid-2col" id="gallery-container"></div> 
+    </section> 
+    <hr class="divider reveal"> 
+    <section id="contact" class="section contact-section"> 
+        <div class="contact-container reveal"> 
+            <div class="contact-img"> 
+                <div class="img-placeholder"> 
+                    <img src="PIC_Contact_Portrait.jpg" onerror="this.onerror=null; this.src='PIC_Contact_Portrait.png';" alt="Foto Contacto" style="width:100%; height:100%; object-fit:cover; border-radius:12px; display:block;"> 
+                </div> 
+            </div> 
+            <div class="contact-info"> 
+                <p class="section-subtitle">— GET IN TOUCH</p> 
+                <h2 class="contact-title">CONTACT</h2> 
+                                 
+                <p class="contact-bio"> 
+                    <strong>Lighting and Compositing Artist</strong> focused on mood, visual storytelling, and cinematic impact. Experienced in creating rich atmospheres and seamlessly integrating elements for <strong>audiovisuals, cinema, and video games</strong>. 
+                </p> 
+                                 
+                <a href="#" onclick="highlightContactButtons(event)" class="btn-primary">LET'S WORK TOGETHER</a> 
+                                 
+                <div class="social-links"> 
+                    <div class="mail-expand-wrapper glow-target" id="mail-wrapper" onclick="toggleMailExpand(event)"> 
+                        <span class="mail-btn-text">MAIL</span> 
+                        <span class="mail-expanded-address">: humberto.ferrer.bernal@gmail.com</span> 
+                    </div> 
+                                         
+                    <a href="https://www.linkedin.com/in/humberto-ferrer-bernal/" target="_blank">LINKEDIN</a> 
+                    <a href="http://artstation.com/humbfbx" target="_blank">ARTSTATION</a> 
+                                         
+                    <div class="phone-expand-wrapper glow-target" id="phone-wrapper" onclick="togglePhoneExpand(event)"> 
+                        <span class="phone-btn-text">PHONE</span> 
+                        <span class="phone-expanded-address">: +34 644 755 446</span> 
+                    </div> 
+                </div> 
+            </div> 
+        </div> 
+    </section> 
+    <div id="footer-container"></div> 
+    <script src="script.js"></script> 
+</body> 
 </html>
