@@ -43,10 +43,8 @@ function updateThemeIcon(theme) {
     const iconSpan = document.getElementById('theme-icon');
     if (iconSpan) {
         if (theme === 'light') {
-            // Icono de línea Luna
             iconSpan.innerHTML = `<svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
         } else {
-            // Icono de línea Sol
             iconSpan.innerHTML = `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
         }
     }
@@ -155,7 +153,6 @@ function setupVideo() {
     }
 }
 
-// Menú de navegación (Garantiza siempre Desafío Champions SENDOKAI sin Rebirth)
 function renderNav() {
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
     
@@ -239,7 +236,6 @@ function loadProjects(items, containerId, isGallery = false) {
             
         const linkUrl = `project-placeholder.html?title=${encodeURIComponent(item.title)}`;
         
-        // Si es Galería, NO mostrar título ni tags en la miniatura de la portada
         let infoHtml = '';
         if (!isGallery) {
             const rolesHtml = item.roles ? item.roles.map(role => `<span class="role-tag">${role}</span>`).join('') : '';
@@ -279,7 +275,6 @@ function buildRelatedSection(titleText, items, isGallerySection = false) {
         }
         const linkUrl = `project-placeholder.html?title=${encodeURIComponent(item.title)}`;
         
-        // Si la sección relacionada es Gallery, no mostrar título en la tarjeta mini
         let miniInfoHtml = '';
         if (!isGallerySection) {
             miniInfoHtml = `
@@ -320,26 +315,36 @@ function loadProjectDetails() {
     const titleElem = document.getElementById('project-title');
     const subtitleElem = document.getElementById('project-subtitle');
     const dividerElem = document.getElementById('project-divider');
+    const descElem = document.getElementById('project-desc');
     
     document.title = (displayTitle || "Detalle") + " | Humberto Ferrer";
     
-    // Si es un item de Gallery, Ocultar Título y Tags dentro de la página de detalle
+    // Si es Gallery: ocultar título, subtítulo, divider, tags y texto por defecto
     if (isGallery) {
         if (titleElem) titleElem.style.display = 'none';
         if (subtitleElem) subtitleElem.style.display = 'none';
         if (dividerElem) dividerElem.style.display = 'none';
         document.getElementById('project-tags').style.display = 'none';
+        if (descElem) descElem.style.display = 'none'; // ELIMINADO TEXTO DE GALERÍA
     } else {
         if (titleElem) titleElem.textContent = displayTitle;
     }
     
     if (project) {
         let bioText = project.desc;
-        if (displayTitle === "Desafío Champions SENDOKAI") {
+        
+        // Texto específico de NO LIFE
+        if (displayTitle === "NO LIFE" || (project.title && project.title.includes("NO LIFE"))) {
+            bioText = "Lighting Lead responsible of final look and workflow optimization throughout the project. Developed master lighting setups for interior, exterior, and underwater sequences, creating an efficient pipeline for teamwide collaboration. Built custom tools for underwater lighting simulation and scene setup automation, reducing iteration times. Enhanced final compositions through volumetric effects and color grading, helping define the project's visual style and atmosphere.";
+        } 
+        // Texto específico de SENDOKAI
+        else if (displayTitle === "Desafío Champions SENDOKAI") {
             bioText = "Tasked with shaping the visual mood across several episodes, I developed master lighting setups that faithfully translated the directors' color keys into the 3D environment. A key focus was maintaining strict shot-to-shot consistency while preserving the show's signature friendly, cartoon aesthetic—characterized by vibrant colors, rich atmospheres, and strong rim lights. A major part of the process also involved managing the in-house render farm, maximizing its capacity, and actively troubleshooting render errors as they arose to keep production moving smoothly.";
         }
         
-        document.getElementById('project-desc').textContent = bioText || "";
+        if (!isGallery && descElem) {
+            descElem.textContent = bioText || "";
+        }
         
         if (!isGallery) {
             const rolesHtml = project.roles ? project.roles.map(role => `<span class="role-tag detail-page-tag">${role}</span>`).join('') : '';
@@ -350,7 +355,6 @@ function loadProjectDetails() {
         const extraContainer = document.getElementById('project-extra-content');
         
         if (displayTitle === "Desafío Champions SENDOKAI") {
-            // Reproductores y cuadrícula 2x2 específica para Sendokai
             wrapper.innerHTML = `
                 <div class="video-overlay" id="sendokai-video-overlay" style="cursor:pointer;">
                     <img src="PIC_Sendokai_01.png" onerror="this.onerror=null; this.src='PIC_Sendokai_01.jpg';" alt="Sendokai Trailer" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; opacity:0.8;">
@@ -370,7 +374,6 @@ function loadProjectDetails() {
                 }
             }, 50);
 
-            // Cuadrícula 2x2 con PIC_Sendokai_01 a 04
             extraContainer.innerHTML = `
                 <div class="sendokai-grid">
                     <div class="sendokai-card" onclick="openLightbox('PIC_Sendokai_01.png')">
