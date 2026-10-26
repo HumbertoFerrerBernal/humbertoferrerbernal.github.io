@@ -247,6 +247,9 @@ nav {
     margin-bottom: 0.8rem;
     letter-spacing: 0.5px;
 }
+.hero-greeting strong {
+    font-weight: 900;
+}
 
 /* Sección Showreel */
 .showreel-section {
@@ -685,9 +688,13 @@ nav {
         gap: 1.2rem !important;
     }
 
-    /* FEATURED PROJECTS MÓVIL: Ocultar categorías/roles, solo título y más pequeño */
+    /* FEATURED PROJECTS MÓVIL: Ocultar categorías/roles, solo título y bajar el texto */
     .featured-grid .project-roles {
         display: none !important;
+    }
+
+    .featured-grid .project-info {
+        padding: 1.2rem 1.5rem !important;
     }
 
     .featured-grid .project-info h3 {
@@ -695,17 +702,42 @@ nav {
         margin-bottom: 0 !important;
     }
 
-    /* OTHER PROJECTS EN MÓVIL: Título antes que la imagen */
+    /* OTHER PROJECTS EN MÓVIL:
+       Estructura solicitada:
+       1. Título solo
+       2. Imagen
+       3. Categorías/roles
+       4. Texto de biografía
+    */
     .other-project-row {
         flex-direction: column !important;
+        gap: 0 !important;
     }
+
+    .other-project-title-link {
+        order: 1 !important;
+        margin-bottom: 0.6rem !important;
+    }
+
     .other-project-thumb {
+        order: 2 !important;
         width: 100% !important;
-        order: 2 !important; /* Imagen pasa a ir después del título */
+        margin-bottom: 1rem !important;
     }
+
     .other-project-content {
-        order: 1 !important; /* Contenido va primero */
-        margin-bottom: 0.5rem;
+        order: 3 !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    .other-project-roles {
+        order: 1 !important;
+        margin-bottom: 0.8rem !important;
+    }
+
+    .other-project-desc {
+        order: 2 !important;
     }
 
     .mini-gallery-flex-grid .project-card {
@@ -719,11 +751,16 @@ nav {
         aspect-ratio: 16 / 9 !important;
     }
 
-    /* CATEGORÍAS/ROLES DENTRO DE LA PÁGINA DE DETALLE DE PROYECTOS MUCHO MÁS PEQUEÑAS EN MÓVIL */
+    /* CATEGORÍAS/ROLES DENTRO DE LA PÁGINA DE DETALLE DE PROYECTOS */
     .role-tag, .detail-page-tag {
         font-size: 0.65rem !important;
         padding: 0.3rem 0.6rem !important;
         border-radius: 5px !important;
+    }
+
+    /* Margen entre las categorías dentro del proyecto y la línea separadora */
+    #project-tags {
+        margin-bottom: 1rem !important;
     }
 
     .contact-container {
