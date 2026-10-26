@@ -43,10 +43,10 @@ function updateThemeIcon(theme) {
     const iconSpan = document.getElementById('theme-icon');
     if (iconSpan) {
         if (theme === 'light') {
-            // Icono de línea Luna
+            // Icono de línea Luna (Blanco)
             iconSpan.innerHTML = `<svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
         } else {
-            // Icono de línea Sol
+            // Icono de línea Sol (Blanco)
             iconSpan.innerHTML = `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
         }
     }
@@ -155,14 +155,13 @@ function setupVideo() {
     }
 }
 
-// Menú de navegación con Logo de imagen antes del texto e icono de línea
+// Menú de navegación con Texto Blanco en el Banner Amarillo
 function renderNav() {
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
     
     const dropdownLinks = portfolioData.projects
         .filter(p => !p.title.startsWith('Proyecto 0'))
         .map(p => {
-            // Reemplazar nombre para el enlace
             let linkTitle = p.title === "Desafío Champions SENDOKAI: Rebirth" ? "Desafío Champions SENDOKAI" : p.title;
             return `<a href="project-placeholder.html?title=${encodeURIComponent(p.title)}">${linkTitle}</a>`;
         })
@@ -303,7 +302,6 @@ function loadProjectDetails() {
     document.title = displayTitle + " | Humberto Ferrer";
     
     if (project) {
-        // Biografía específica para Sendokai si aplica
         let bioText = project.desc;
         if (displayTitle === "Desafío Champions SENDOKAI") {
             bioText = "Tasked with shaping the visual mood across several episodes, I developed master lighting setups that faithfully translated the directors' color keys into the 3D environment. A key focus was maintaining strict shot-to-shot consistency while preserving the show's signature friendly, cartoon aesthetic—characterized by vibrant colors, rich atmospheres, and strong rim lights. A major part of the process also involved managing the in-house render farm, maximizing its capacity, and actively troubleshooting render errors as they arose to keep production moving smoothly.";
