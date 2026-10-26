@@ -393,12 +393,9 @@ function buildRelatedSection(titleText, items, isGallerySection = false) {
              
             const rolesHtml = item.roles ? item.roles.map(role => `<span class="role-tag">${role}</span>`).join('') : ''; 
              
-            // En la maqueta HTML generamos el enlace del título dentro y fuera para flexibilidad de reordenamiento CSS en escritorio y móvil
+            // En Other Projects siempre la miniatura primero, seguida del contenido con título, roles y descripción
             html += ` 
                 <div class="other-project-row reveal"> 
-                    <a href="${linkUrl}" class="other-project-title-link"> 
-                        <h3>${displayTitle}</h3> 
-                    </a> 
                     <a href="${linkUrl}" class="other-project-thumb"> 
                         ${imgContent} 
                     </a> 
