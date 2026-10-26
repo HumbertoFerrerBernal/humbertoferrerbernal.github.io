@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function initTheme() {
     const savedTheme = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-theme', savedTheme);
+    updateThemeIcon(savedTheme);
 }
 
 function toggleTheme() {
@@ -35,14 +36,22 @@ function toggleTheme() {
     const newTheme = currentTheme === 'light' ? 'dark' : 'light';
     document.documentElement.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
-    
+    updateThemeIcon(newTheme);
+}
+
+function updateThemeIcon(theme) {
     const iconSpan = document.getElementById('theme-icon');
-    if(iconSpan) {
-        iconSpan.textContent = newTheme === 'light' ? '🌙' : '☀️';
+    if (iconSpan) {
+        if (theme === 'light') {
+            // Icono de línea Luna
+            iconSpan.innerHTML = `<svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
+        } else {
+            // Icono de línea Sol
+            iconSpan.innerHTML = `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
+        }
     }
 }
 
-// Desplegar Mail al hacer clic
 function toggleMailExpand(e) {
     e.preventDefault();
     const mailWrapper = document.getElementById('mail-wrapper');
@@ -54,7 +63,6 @@ function toggleMailExpand(e) {
     });
 }
 
-// Desplegar Phone al hacer clic (igual que Mail)
 function togglePhoneExpand(e) {
     e.preventDefault();
     const phoneWrapper = document.getElementById('phone-wrapper');
@@ -66,7 +74,6 @@ function togglePhoneExpand(e) {
     });
 }
 
-// Iluminar Mail y Teléfono con efecto Glow al pulsar LET'S WORK TOGETHER
 function highlightContactButtons(e) {
     e.preventDefault();
     const mail = document.getElementById('mail-wrapper');
@@ -74,14 +81,14 @@ function highlightContactButtons(e) {
     
     if (mail) {
         mail.classList.remove('glow-highlight');
-        void mail.offsetWidth; // Trigger reflow
+        void mail.offsetWidth;
         mail.classList.add('glow-highlight');
         if (!mail.classList.contains('expanded')) mail.classList.add('expanded');
     }
     
     if (phone) {
         phone.classList.remove('glow-highlight');
-        void phone.offsetWidth; // Trigger reflow
+        void phone.offsetWidth;
         phone.classList.add('glow-highlight');
         if (!phone.classList.contains('expanded')) phone.classList.add('expanded');
     }
@@ -148,23 +155,29 @@ function setupVideo() {
     }
 }
 
-// Menú de navegación (ABOUT entre SHOWREEL y PROJECTS, con enlace al CV)
+// Menú de navegación con Logo de imagen antes del texto e icono de línea
 function renderNav() {
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
-    const themeIcon = currentTheme === 'light' ? '🌙' : '☀️';
     
     const dropdownLinks = portfolioData.projects
         .filter(p => !p.title.startsWith('Proyecto 0'))
-        .map(p => `<a href="project-placeholder.html?title=${encodeURIComponent(p.title)}">${p.title}</a>`)
+        .map(p => {
+            // Reemplazar nombre para el enlace
+            let linkTitle = p.title === "Desafío Champions SENDOKAI: Rebirth" ? "Desafío Champions SENDOKAI" : p.title;
+            return `<a href="project-placeholder.html?title=${encodeURIComponent(p.title)}">${linkTitle}</a>`;
+        })
         .join('');
     
     const navHtml = `
     <nav>
         <div class="logo">
-            <a href="https://humbertoferrerbernal.github.io/">HUMBERTO FERRER</a>
+            <a href="https://humbertoferrerbernal.github.io/">
+                <img src="logo.png" onerror="this.onerror=null; this.src='PIC_Logo.png';" alt="Logo" class="logo-img">
+                HUMBERTO FERRER
+            </a>
         </div>
         <ul class="nav-links">
-            <li><button class="theme-toggle-btn" onclick="toggleTheme()" title="Cambiar Tema"><span id="theme-icon">${themeIcon}</span></button></li>
+            <li><button class="theme-toggle-btn" onclick="toggleTheme()" title="Cambiar Tema"><span id="theme-icon"></span></button></li>
             <li><a href="https://humbertoferrerbernal.github.io/">HOME</a></li>
             <li><a href="https://humbertoferrerbernal.github.io/#showreel">SHOWREEL</a></li>
             <li><a href="CV_Humberto_Ferrer.pdf" target="_blank" title="Abrir CV">ABOUT</a></li>
@@ -180,6 +193,7 @@ function renderNav() {
     </nav>
     `;
     document.getElementById('nav-container').innerHTML = navHtml;
+    updateThemeIcon(currentTheme);
 }
 
 function renderFooter() {
@@ -208,13 +222,18 @@ function loadProjects(items, containerId) {
     if (!container || !items) return;
     
     items.forEach(item => {
+        let displayTitle = item.title;
+        if (displayTitle === "Desafío Champions SENDOKAI: Rebirth") {
+            displayTitle = "Desafío Champions SENDOKAI";
+        }
+        
         const rolesHtml = item.roles ? item.roles.map(role => `<span class="role-tag">${role}</span>`).join('') : '';
         const largeClass = item.size === 'large' ? 'large' : '';
         
         let imgContent = `Landscape Placeholder`;
         if (item.image) {
             const fallbackImg = item.image.replace('.png', '.jpg');
-            imgContent = `<img src="${item.image}" alt="${item.title}" onerror="this.onerror=null; this.src='${fallbackImg}';">`;
+            imgContent = `<img src="${item.image}" alt="${displayTitle}" onerror="this.onerror=null; this.src='${fallbackImg}';">`;
         }
             
         const linkUrl = `project-placeholder.html?title=${encodeURIComponent(item.title)}`;
@@ -223,7 +242,7 @@ function loadProjects(items, containerId) {
             <a href="${linkUrl}" class="project-card ${largeClass} reveal">
                 <div class="project-img">${imgContent}</div>
                 <div class="project-info">
-                    <h3>${item.title}</h3>
+                    <h3>${displayTitle}</h3>
                     <div class="project-roles">${rolesHtml}</div>
                 </div>
             </a>
@@ -234,14 +253,19 @@ function loadProjects(items, containerId) {
 
 function buildRelatedSection(titleText, items) {
     if (!items || items.length === 0) return '';
-    let html = `<h3 class="accent reveal" style="margin: 3rem 0 1rem 0; font-size: 1.2rem; letter-spacing: 2px;">${titleText}</h3>`;
+    let html = `<h3 class="related-section-title reveal">${titleText}</h3>`;
     html += `<div class="mini-projects-grid">`;
     
     items.forEach(item => {
+        let displayTitle = item.title;
+        if (displayTitle === "Desafío Champions SENDOKAI: Rebirth") {
+            displayTitle = "Desafío Champions SENDOKAI";
+        }
+        
         let imgContent = `Landscape Placeholder`;
         if (item.image) {
             const fallbackImg = item.image.replace('.png', '.jpg');
-            imgContent = `<img src="${item.image}" alt="${item.title}" onerror="this.onerror=null; this.src='${fallbackImg}';">`;
+            imgContent = `<img src="${item.image}" alt="${displayTitle}" onerror="this.onerror=null; this.src='${fallbackImg}';">`;
         }
         const linkUrl = `project-placeholder.html?title=${encodeURIComponent(item.title)}`;
         
@@ -249,7 +273,7 @@ function buildRelatedSection(titleText, items) {
             <a href="${linkUrl}" class="project-card reveal">
                 <div class="project-img">${imgContent}</div>
                 <div class="project-info">
-                    <h4>${item.title}</h4>
+                    <h4>${displayTitle}</h4>
                 </div>
             </a>
         `;
@@ -260,42 +284,51 @@ function buildRelatedSection(titleText, items) {
 
 function loadProjectDetails() {
     const urlParams = new URLSearchParams(window.location.search);
-    const title = urlParams.get('title') || 'Proyecto Desconocido';
+    const rawTitle = urlParams.get('title') || 'Proyecto Desconocido';
     
-    document.getElementById('project-title').textContent = title;
-    document.title = title + " | Humberto Ferrer";
-    
-    let project = portfolioData.projects.find(p => p.title === title);
+    let project = portfolioData.projects.find(p => p.title === rawTitle || p.title.startsWith(rawTitle));
     let isGallery = false;
     
     if (!project) {
-        project = portfolioData.gallery.find(a => a.title === title);
+        project = portfolioData.gallery.find(a => a.title === rawTitle);
         isGallery = true;
     }
     
+    let displayTitle = rawTitle;
+    if (project && (project.title.includes("Sendokai") || project.title.includes("SENDOKAI"))) {
+        displayTitle = "Desafío Champions SENDOKAI";
+    }
+    
+    document.getElementById('project-title').textContent = displayTitle;
+    document.title = displayTitle + " | Humberto Ferrer";
+    
     if (project) {
-        if(project.desc) {
-            document.getElementById('project-desc').textContent = project.desc;
+        // Biografía específica para Sendokai si aplica
+        let bioText = project.desc;
+        if (displayTitle === "Desafío Champions SENDOKAI") {
+            bioText = "Tasked with shaping the visual mood across several episodes, I developed master lighting setups that faithfully translated the directors' color keys into the 3D environment. A key focus was maintaining strict shot-to-shot consistency while preserving the show's signature friendly, cartoon aesthetic—characterized by vibrant colors, rich atmospheres, and strong rim lights. A major part of the process also involved managing the in-house render farm, maximizing its capacity, and actively troubleshooting render errors as they arose to keep production moving smoothly.";
         }
         
-        const rolesHtml = project.roles ? project.roles.map(role => `<span class="role-tag" style="background:rgba(229,185,26,0.2); color:#9A7B0E; border:none; padding:0.3rem 0.8rem; border-radius:10px; font-weight:bold;">${role}</span>`).join('') : '';
+        document.getElementById('project-desc').textContent = bioText || "";
+        
+        const rolesHtml = project.roles ? project.roles.map(role => `<span class="role-tag detail-page-tag">${role}</span>`).join('') : '';
         document.getElementById('project-tags').innerHTML = rolesHtml;
         
         const wrapper = document.getElementById('project-media');
         if (project.image) {
             const fallbackImg = project.image.replace('.png', '.jpg');
-            wrapper.innerHTML = `<img src="${project.image}" alt="${project.title}" onerror="this.onerror=null; this.src='${fallbackImg}';" style="width:100%; height:100%; object-fit:cover;">`;
+            wrapper.innerHTML = `<img src="${project.image}" alt="${displayTitle}" onerror="this.onerror=null; this.src='${fallbackImg}';" style="width:100%; height:100%; object-fit:cover;">`;
             wrapper.onclick = function() {
                 const img = this.querySelector('img');
                 if(img) openLightbox(img.src);
             };
         } else {
-             wrapper.innerHTML = `<div style="font-size:2rem;">${title}</div>`;
+             wrapper.innerHTML = `<div style="font-size:2rem;">${displayTitle}</div>`;
         }
     }
     
-    const relatedGallery = portfolioData.gallery.filter(a => a.title !== title);
-    const relatedProjects = portfolioData.projects.filter(p => p.title !== title && !p.title.startsWith('Proyecto 0'));
+    const relatedGallery = portfolioData.gallery.filter(a => a.title !== rawTitle);
+    const relatedProjects = portfolioData.projects.filter(p => p.title !== rawTitle && !p.title.startsWith('Proyecto 0'));
     
     let relatedHtml = '';
     

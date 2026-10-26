@@ -7,7 +7,7 @@
     --accent: #E5B91A; 
     --accent-hover: #C9A012;
     --card-border: #26262e;
-    --nav-bg: rgba(15, 15, 18, 0.95);
+    --nav-bg: #E5B91A; /* BANNER SUPERIOR CON FONDO AMARILLO SIEMPRE */
     --badge-bg: #22222a;
     --divider-color: #26262e;
 }
@@ -21,7 +21,7 @@
     --accent: #E5B91A; 
     --accent-hover: #C9A012;
     --card-border: #e0e0e0;
-    --nav-bg: rgba(242, 242, 244, 0.95);
+    --nav-bg: #E5B91A; /* BANNER AMARILLO FIJO TAMBIÉN EN MODO CLARO */
     --badge-bg: #e5e5eb;
     --divider-color: #dcdce0;
 }
@@ -51,57 +51,72 @@ h2 { font-size: 55px; font-weight: 900; margin-bottom: 2rem; text-transform: upp
 /* Separadores */
 .divider { border: 0; height: 1px; background: var(--divider-color); margin: 0 15%; }
 
-/* Navegación (Banner superior amarillo continuo + tipografía 5pt más grande) */
+/* Navegación (Banner superior amarillo fijo en ambos modos + 3px menos en tipografía) */
 nav {
     display: flex; justify-content: space-between; align-items: center; 
-    padding: 1.2rem 3%; 
+    padding: 0.9rem 3%; 
     position: fixed; width: 100%; top: 0; z-index: 100;
-    background: var(--nav-bg); 
-    backdrop-filter: blur(12px); 
-    border-top: 5px solid var(--accent); /* BANNER SUPERIOR AMARILLO DESTACADO */
-    border-bottom: 1px solid var(--card-border);
-    transition: background 0.3s, border-color 0.3s;
+    background: #E5B91A !important; /* BANNER DE FONDO AMARILLO FIJO */
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    border-bottom: 2px solid #C9A012;
 }
 
-/* LOGO AMARILLO Y +5pt MÁS GRANDE */
+/* LOGO CON IMAGEN ANTES DEL NOMBRE (Texto negro sobre amarillo, reducido 3px -> 1.55rem - 3px = ~1.35rem) */
 .logo a { 
     font-weight: 900; 
-    font-size: 1.75rem; /* +5pt más grande */
+    font-size: 1.35rem; 
     letter-spacing: 1px; 
-    color: var(--accent) !important; 
+    color: #111111 !important; 
     text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
 }
 
-.nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+.logo-img {
+    height: 32px;
+    width: auto;
+    object-fit: contain;
+}
+
+.nav-links { display: flex; gap: 1.8rem; list-style: none; align-items: center; }
 .nav-links a { 
-    color: var(--text-main); 
+    color: #111111 !important; /* Texto oscuro para legibilidad sobre fondo amarillo */
     text-decoration: none; 
-    font-size: 1.15rem; /* +5pt más grande */
-    font-weight: 700; 
-    transition: color 0.2s; 
+    font-size: 0.95rem; /* Reducido 3px de 1.15rem */
+    font-weight: 800; 
+    transition: opacity 0.2s; 
 }
-.nav-links a:hover { color: var(--accent); }
+.nav-links a:hover { opacity: 0.7; }
 
-/* Botón modo claro/oscuro */
+/* Botón modo claro/oscuro (Icono de línea SVG sobre amarillo) */
 .theme-toggle-btn {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    color: var(--text-main);
-    width: 44px;
-    height: 44px;
+    background: transparent;
+    border: 2px solid #111111;
+    color: #111111;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    font-size: 1.3rem;
     transition: all 0.3s ease;
     outline: none;
+    padding: 0;
 }
 .theme-toggle-btn:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-    box-shadow: 0 0 15px rgba(229, 185, 26, 0.4);
+    background: #111111;
+    color: #E5B91A;
+}
+.theme-toggle-btn svg {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
 
 .dropdown { position: relative; display: inline-block; }
@@ -111,21 +126,30 @@ nav {
     border: 1px solid var(--card-border);
 }
 .dropdown:hover .dropdown-content { display: block; }
-.dropdown-content a { color: var(--text-main); padding: 12px 16px; display: block; border-bottom: 1px solid var(--card-border); font-size: 0.95rem;}
-.dropdown-content a:hover { background-color: var(--bg-color); color: var(--accent); }
+.dropdown-content a { color: var(--text-main) !important; padding: 12px 16px; display: block; border-bottom: 1px solid var(--card-border); font-size: 0.85rem;}
+.dropdown-content a:hover { background-color: var(--bg-color); color: var(--accent) !important; }
 
-.btn-contact { background-color: var(--accent); color: #111 !important; padding: 0.5rem 1.4rem; border-radius: 20px; transition: 0.3s; }
-.btn-contact:hover { background-color: var(--accent-hover); }
+.btn-contact { 
+    background-color: #111111 !important; 
+    color: #E5B91A !important; 
+    padding: 0.5rem 1.4rem; 
+    border-radius: 20px; 
+    transition: 0.3s !important; 
+}
+.btn-contact:hover { 
+    background-color: #222222 !important; 
+    box-shadow: 0 0 12px rgba(0,0,0,0.3);
+}
 
 /* Hero Section */
 .hero { height: 100vh; display: flex; align-items: center; padding: 0 15%; background-color: var(--bg-color); }
 .hero-content { display: flex; justify-content: flex-start; align-items: center; width: 100%; margin-top: 40px; }
 .titles { flex-shrink: 0; }
 
-/* Showreel y Bio (Ancho completo adaptado al vídeo) */
+/* Showreel y Bio */
 .showreel-bio {
     width: 100%;
-    max-width: 100%; /* Ocupa lo mismo de ancho que el vídeo */
+    max-width: 100%;
     margin-bottom: 2rem;
     color: var(--text-muted);
     font-size: 1.05rem;
@@ -210,19 +234,26 @@ nav {
 
 .project-roles { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 
+/* Role Tag ajustado (Más grande en página de detalle según requerimiento) */
 .role-tag {
-    font-size: 0.65rem; 
-    background: rgba(17, 17, 17, 0.75); 
+    font-size: 0.75rem; 
+    background: rgba(17, 17, 17, 0.85); 
     color: var(--accent); 
     border: 1px solid var(--accent); 
-    padding: 0.4rem 0.8rem; 
-    border-radius: 6px; 
+    padding: 0.5rem 1rem; 
+    border-radius: 8px; 
     font-weight: bold; 
     text-transform: uppercase;
     backdrop-filter: blur(4px); 
 }
 
-/* Contacto Ajustado */
+.detail-page-tag {
+    font-size: 0.85rem !important;
+    padding: 0.6rem 1.2rem !important;
+    border-radius: 8px !important;
+}
+
+/* Contacto */
 .contact-container {
     display: flex; gap: 4rem; align-items: center; background-color: var(--card-bg);
     padding: 2.5rem 3.5rem; border-radius: 20px; border: 1px solid var(--card-border);
@@ -251,7 +282,6 @@ nav {
     box-shadow: 0 0 20px rgba(229, 185, 26, 0.6);
 }
 
-/* Redes Sociales y botones con GLOW AMARILLO al pasar el ratón */
 .social-links { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
 
 .social-links a, 
@@ -271,7 +301,6 @@ nav {
     background: var(--card-bg);
 }
 
-/* Efecto Hover: No se pone blanco, sino que brilla con borde y glow amarillo */
 .social-links a:hover, 
 .mail-expand-wrapper:hover,
 .phone-expand-wrapper:hover { 
@@ -282,7 +311,6 @@ nav {
     transform: translateY(-2px);
 }
 
-/* Clase pulsante/brillo al hacer clic en LET'S WORK TOGETHER */
 .glow-highlight {
     animation: flashYellowGlow 1.8s ease-in-out;
 }
@@ -308,7 +336,6 @@ nav {
     }
 }
 
-/* Desplegable de MAIL y PHONE Inline */
 .mail-expand-wrapper, .phone-expand-wrapper {
     overflow: hidden;
     white-space: nowrap;
@@ -333,7 +360,36 @@ nav {
     box-shadow: 0 0 15px rgba(229, 185, 26, 0.4);
 }
 
-/* Footer - EXTREMOS DE LA PANTALLA */
+/* Títulos de secciones de recomendación ("OTHER PROJECTS:", "OTHER GALLERY:") +5px más grande */
+.related-section-title {
+    color: var(--accent);
+    font-size: 1.5rem !important; /* +5px más grande que 1.2rem */
+    letter-spacing: 2px;
+    margin: 3rem 0 1.2rem 0;
+    font-weight: 900;
+}
+
+/* Tarjetas de proyectos relacionados (Más pequeñas/compactas según feedback) */
+.mini-projects-grid {
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(220px, 320px)); 
+    gap: 1.5rem; 
+    margin-bottom: 2rem;
+}
+.mini-projects-grid .project-card { 
+    height: 180px !important; /* Cuadrado/tarjeta más pequeña */
+}
+.mini-projects-grid .project-info { 
+    padding: 1rem; 
+}
+.mini-projects-grid h4 { 
+    font-size: 1rem; 
+    margin: 0; 
+    color: #fff; 
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8); 
+}
+
+/* Footer */
 .footer {
     display: flex; justify-content: space-between; align-items: center; 
     padding: 3rem 3%; 
@@ -364,14 +420,6 @@ nav {
     border-radius: 6px; font-weight: bold; pointer-events: none; opacity: 0;
     transition: opacity 0.2s; z-index: 9999; font-size: 0.8rem;
 }
-
-/* Mini Grid Recomendaciones */
-.mini-projects-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;
-}
-.mini-projects-grid .project-card { height: auto; aspect-ratio: 16 / 9; }
-.mini-projects-grid .project-info { padding: 1.2rem; }
-.mini-projects-grid h4 { font-size: 1.1rem; margin: 0; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
 
 /* ANIMACIONES DE SCROLL */
 .reveal {
