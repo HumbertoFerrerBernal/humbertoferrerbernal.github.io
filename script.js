@@ -167,11 +167,12 @@ function renderNav() {
         })
         .join('');
     
+    // ORDEN DE MENÚ ACTUALIZADO: ABOUT ENTRE GALLERY Y CONTACT
     const navHtml = `
     <nav>
         <div class="logo">
             <a href="https://humbertoferrerbernal.github.io/">
-                <img src="logo.png" onerror="this.onerror=null; this.src='PIC_Logo.png';" alt="Logo" class="logo-img">
+                <img src="PIC_Logo.png" onerror="this.onerror=null; this.src='logo.png';" alt="Logo" class="logo-img">
                 HUMBERTO FERRER
             </a>
         </div>
@@ -179,7 +180,6 @@ function renderNav() {
             <li><button class="theme-toggle-btn" onclick="toggleTheme()" title="Cambiar Tema"><span id="theme-icon"></span></button></li>
             <li><a href="https://humbertoferrerbernal.github.io/">HOME</a></li>
             <li><a href="https://humbertoferrerbernal.github.io/#showreel">SHOWREEL</a></li>
-            <li><a href="CV_Humberto_Ferrer.pdf" target="_blank" title="Abrir CV">ABOUT</a></li>
             <li class="dropdown">
                 <a href="https://humbertoferrerbernal.github.io/#projects">PROJECTS ▾</a>
                 <div class="dropdown-content">
@@ -187,6 +187,7 @@ function renderNav() {
                 </div>
             </li>
             <li><a href="https://humbertoferrerbernal.github.io/#gallery">GALLERY</a></li>
+            <li><a href="CV_Humberto_Ferrer.pdf" target="_blank" title="Abrir CV">ABOUT</a></li>
             <li><a href="https://humbertoferrerbernal.github.io/#contact" class="btn-contact">CONTACT</a></li>
         </ul>
     </nav>
@@ -261,40 +262,74 @@ function buildRelatedSection(titleText, items, isGallerySection = false) {
     if (!items || items.length === 0) return '';
     let html = `<h3 class="related-section-title reveal">${titleText}</h3>`;
     
-    // Si es la sección de OTHER GALLERY dentro del detalle, usar cuadrícula 3x3
-    const gridClass = isGallerySection ? 'mini-gallery-grid-3x3' : 'mini-projects-grid';
-    html += `<div class="${gridClass}">`;
-    
-    items.forEach(item => {
-        let displayTitle = item.title;
-        if (displayTitle.includes("Sendokai") || displayTitle.includes("SENDOKAI")) {
-            displayTitle = "Desafío Champions SENDOKAI";
-        }
-        
-        let imgContent = `Landscape Placeholder`;
-        if (item.image) {
-            const fallbackImg = item.image.replace('.png', '.jpg');
-            imgContent = `<img src="${item.image}" alt="${displayTitle}" onerror="this.onerror=null; this.src='${fallbackImg}';">`;
-        }
-        const linkUrl = `project-placeholder.html?title=${encodeURIComponent(item.title)}`;
-        
-        let miniInfoHtml = '';
-        if (!isGallerySection) {
-            miniInfoHtml = `
-                <div class="project-info">
-                    <h4>${displayTitle}</h4>
+    if (isGallerySection) {
+        // OTHER GALLERY: Usar flex centrado para que si la fila es descompensada (ej: 2 elementos) queden perfectamente centrados en la 2ª fila
+        html += `<div class="mini-gallery-flex-grid">`;
+        items.forEach(item => {
+            let displayTitle = item.title;
+            if (displayTitle.includes("Sendokai") || displayTitle.includes("SENDOKAI")) {
+                displayTitle = "Desafío Champions SENDOKAI";
+            }
+            
+            let imgContent = `Landscape Placeholder`;
+            if (item.image) {
+                const fallbackImg = item.image.replace('.png', '.jpg');
+                imgContent = `<img src="${item.image}" alt="${displayTitle}" onerror="this.onerror=null; this.src='${fallbackImg}';">`;
+            }
+            const linkUrl = `project-placeholder.html?title=${encodeURIComponent(item.title)}`;
+            
+            html += `
+                <a href="${linkUrl}" class="project-card reveal">
+                    <div class="project-img">${imgContent}</div>
+                </a>
+            `;
+        });
+        html += `</div>`;
+    } else {
+        // OTHER PROJECTS: Formato horizontal con título grande a la derecha, roles pequeños y biografía completa
+        html += `<div class="other-projects-flex-container">`;
+        items.forEach(item => {
+            let displayTitle = item.title;
+            if (displayTitle.includes("Sendokai") || displayTitle.includes("SENDOKAI")) {
+                displayTitle = "Desafío Champions SENDOKAI";
+            }
+            
+            let imgContent = `Landscape Placeholder`;
+            if (item.image) {
+                const fallbackImg = item.image.replace('.png', '.jpg');
+                imgContent = `<img src="${item.image}" alt="${displayTitle}" onerror="this.onerror=null; this.src='${fallbackImg}';">`;
+            }
+            const linkUrl = `project-placeholder.html?title=${encodeURIComponent(item.title)}`;
+            
+            let bioText = item.desc || "";
+            if (displayTitle === "NO LIFE" || (item.title && item.title.includes("NO LIFE"))) {
+                bioText = "Lighting Lead responsible of final look and workflow optimization throughout the project. Developed master lighting setups for interior, exterior, and underwater sequences, creating an efficient pipeline for teamwide collaboration. Built custom tools for underwater lighting simulation and scene setup automation, reducing iteration times. Enhanced final compositions through volumetric effects and color grading, helping define the project's visual style and atmosphere.";
+            } else if (displayTitle === "Desafío Champions SENDOKAI") {
+                bioText = "Tasked with shaping the visual mood across several episodes, I developed master lighting setups that faithfully translated the directors' color keys into the 3D environment. A key focus was maintaining strict shot-to-shot consistency while preserving the show's signature friendly, cartoon aesthetic—characterized by vibrant colors, rich atmospheres, and strong rim lights. A major part of the process also involved managing the in-house render farm, maximizing its capacity, and actively troubleshooting render errors as they arose to keep production moving smoothly.";
+            }
+            
+            const rolesHtml = item.roles ? item.roles.map(role => `<span class="role-tag">${role}</span>`).join('') : '';
+            
+            html += `
+                <div class="other-project-row reveal">
+                    <a href="${linkUrl}" class="other-project-thumb">
+                        ${imgContent}
+                    </a>
+                    <div class="other-project-content">
+                        <a href="${linkUrl}" class="other-project-title-link">
+                            <h3>${displayTitle}</h3>
+                        </a>
+                        <div class="other-project-roles">
+                            ${rolesHtml}
+                        </div>
+                        <p class="other-project-desc">${bioText}</p>
+                    </div>
                 </div>
             `;
-        }
-        
-        html += `
-            <a href="${linkUrl}" class="project-card reveal">
-                <div class="project-img">${imgContent}</div>
-                ${miniInfoHtml}
-            </a>
-        `;
-    });
-    html += `</div>`;
+        });
+        html += `</div>`;
+    }
+    
     return html;
 }
 
@@ -380,7 +415,7 @@ function loadProjectDetails() {
                         <img src="PIC_Sendokai_01.png" onerror="this.onerror=null; this.src='PIC_Sendokai_01.jpg';" alt="Sendokai 01">
                     </div>
                     <div class="sendokai-card" onclick="openLightbox('PIC_Sendokai_02.png')">
-                        <img src="PIC_Sendokai_02.png" onerror="this.onerror=null; this.src='PIC_Sendokai_02.jpg';" alt="Sendokai 02">
+                        <img src="PIC_Sendokai_02.png" onerror="this.onerror=null; this.src='PIC_Sendokai_03.jpg';" alt="Sendokai 02">
                     </div>
                     <div class="sendokai-card" onclick="openLightbox('PIC_Sendokai_03.png')">
                         <img src="PIC_Sendokai_03.png" onerror="this.onerror=null; this.src='PIC_Sendokai_03.jpg';" alt="Sendokai 03">

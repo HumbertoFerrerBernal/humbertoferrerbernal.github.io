@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalle del Proyecto | Humberto Ferrer</title>
+    <!-- FAVICON / LOGO PESTAÑA NAVEGADOR -->
+    <link rel="icon" type="image/png" href="PIC_Logo.png">
+    <link rel="shortcut icon" href="PIC_Logo.png" type="image/x-icon">
+
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
@@ -34,7 +38,6 @@
             box-shadow: 0 0 25px rgba(229, 185, 26, 0.4);
         }
         
-        /* Cuadrícula 2x2 para Sendokai */
         .sendokai-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -81,13 +84,11 @@
     </style>
 </head>
 <body id="project-detail-page">
-    
     <div id="lightbox" onclick="closeLightbox()">
         <img id="lightbox-img" src="" alt="Pantalla Completa">
     </div>
 
     <div id="copy-tooltip">Copiado</div>
-
     <div id="nav-container"></div>
 
     <div class="project-detail-hero">
@@ -98,17 +99,14 @@
 
         <hr class="divider reveal" id="project-divider" style="margin: 2.5rem 0; width: 100%;">
         
-        <!-- Biografía del trabajo -->
         <div id="project-desc-wrapper" class="reveal" style="margin-bottom: 2rem;">
             <p id="project-desc" style="font-size: 1.15rem; color: var(--text-main); line-height: 1.8; max-width: 100%;"></p>
         </div>
 
-        <!-- Vídeo o Media principal -->
         <div class="project-media-wrapper reveal" id="project-media">
             [ Espacio para el vídeo o las imágenes de este proyecto ]
         </div>
 
-        <!-- Contenedor extra para Sendokai -->
         <div id="project-extra-content" class="reveal"></div>
         
         <div id="related-sections" style="margin-top: 4rem;"></div>

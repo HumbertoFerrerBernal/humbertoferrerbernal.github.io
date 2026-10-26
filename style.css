@@ -149,13 +149,13 @@ nav {
     text-decoration: none !important;
 }
 
-/* Hero Section (Estructura exacta del montaje de la imagen de referencia: 70px+ de espacio superior y margen perfecto con el showreel) */
+/* Hero Section (+30px de espacio superior = 11.5rem) */
 .hero { 
     min-height: auto; 
     display: flex; 
     align-items: center; 
     justify-content: center; 
-    padding: 9.5rem 15% 5rem 15%; /* Margen amplio de 70px+ desde el banner superior */
+    padding: 11.5rem 15% 5rem 15%; 
     background-color: var(--bg-color); 
     text-align: center;
 }
@@ -173,8 +173,15 @@ nav {
 .titles h1 {
     text-align: center;
 }
+.hero-greeting {
+    font-size: 1.35rem;
+    font-weight: 400;
+    color: var(--text-main);
+    margin-bottom: 0.8rem;
+    letter-spacing: 0.5px;
+}
 
-/* Sección Showreel (Margen ajustado según el montaje) */
+/* Sección Showreel */
 .showreel-section {
     padding-top: 1rem !important;
 }
@@ -418,40 +425,96 @@ nav {
     font-weight: 900;
 }
 
-/* SECCIONES RELACIONADAS DENTRO DE DETALLE (OTHER PROJECTS & OTHER GALLERY) */
-/* Ambas tienen siempre la proporción 16:9 pequeña y uniforme */
-.mini-projects-grid {
-    display: grid; 
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
-    gap: 1.5rem; 
+/* NUEVO FORMATO HORIZONTAL PARA OTHER PROJECTS EN DETALLE */
+.other-projects-flex-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
     margin-bottom: 2rem;
 }
 
-/* Cuadrícula 3x3 específica para OTHER GALLERY en detalle */
-.mini-gallery-grid-3x3 {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 1.5rem !important;
+.other-project-row {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.other-project-thumb {
+    width: 320px;
+    flex-shrink: 0;
+    aspect-ratio: 16 / 9;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    background-color: var(--card-bg);
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: block;
+}
+
+.other-project-thumb:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 20px rgba(229, 185, 26, 0.4);
+    transform: translateY(-3px);
+}
+
+.other-project-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.other-project-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.other-project-title-link {
+    text-decoration: none;
+    color: var(--text-main);
+    display: inline-block;
+}
+
+.other-project-title-link h3 {
+    font-size: 2.2rem;
+    font-weight: 900;
+    margin-bottom: 0.4rem;
+    transition: color 0.2s ease;
+}
+
+.other-project-title-link:hover h3 {
+    color: var(--accent);
+}
+
+.other-project-roles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.other-project-desc {
+    font-size: 1rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+/* SECCIÓN OTHER GALLERY (Flex Centrado para mantener 3x3 y centrar filas descompensadas) */
+.mini-gallery-flex-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
     margin-bottom: 2rem;
 }
 
-/* Forzar la proporción clásica 16:9 en todas las minicartas de Other Projects y Other Gallery */
-.mini-projects-grid .project-card,
-.mini-gallery-grid-3x3 .project-card { 
-    height: auto !important; 
+.mini-gallery-flex-grid .project-card {
+    width: calc((100% - 3rem) / 3);
+    height: auto !important;
     aspect-ratio: 16 / 9 !important;
-}
-
-.mini-projects-grid .project-info,
-.mini-gallery-grid-3x3 .project-info { 
-    padding: 1rem; 
-}
-.mini-projects-grid h4,
-.mini-gallery-grid-3x3 h4 { 
-    font-size: 1rem; 
-    margin: 0; 
-    color: #fff; 
-    text-shadow: 0 2px 4px rgba(0,0,0,0.8); 
 }
 
 /* Footer */
@@ -498,11 +561,8 @@ nav {
     transform: translateY(0);
 }
 
-/* =========================================================
-   ADAPTACIÓN COMPLETA PARA MÓVIL Y FORMATO VERTICAL (RESPONSIVE)
-   ========================================================= */
+/* RESPONSIVE MÓVIL */
 @media screen and (max-width: 768px), screen and (orientation: portrait) {
-    /* Banner de navegación responsive */
     nav {
         flex-direction: column;
         padding: 0.8rem 4%;
@@ -532,9 +592,8 @@ nav {
         height: 16px;
     }
 
-    /* Hero en pantalla vertical */
     .hero {
-        padding: 8rem 5% 3rem 5% !important;
+        padding: 9.5rem 5% 3rem 5% !important;
     }
     h1 {
         font-size: 2.4rem !important;
@@ -544,8 +603,10 @@ nav {
         font-size: 2rem !important;
         margin-bottom: 1.2rem !important;
     }
+    .hero-greeting {
+        font-size: 1.05rem !important;
+    }
 
-    /* Secciones generales */
     .section {
         padding: 3rem 5% !important;
     }
@@ -553,14 +614,22 @@ nav {
         margin: 0 5% !important;
     }
 
-    /* Reestructuración a 1 columna en móvil */
     .projects-grid, 
     .gallery-grid-2col, 
-    .mini-projects-grid, 
-    .mini-gallery-grid-3x3,
     .sendokai-grid {
         grid-template-columns: 1fr !important;
         gap: 1.2rem !important;
+    }
+
+    .other-project-row {
+        flex-direction: column !important;
+    }
+    .other-project-thumb {
+        width: 100% !important;
+    }
+
+    .mini-gallery-flex-grid .project-card {
+        width: 100% !important;
     }
 
     .project-card, 
@@ -589,7 +658,6 @@ nav {
         font-size: 0.95rem !important;
     }
 
-    /* Footer en móvil */
     .footer {
         flex-direction: column;
         gap: 1.2rem;

@@ -4,28 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio | Humberto Ferrer</title>
+    <!-- FAVICON / LOGO PESTAÑA NAVEGADOR -->
+    <link rel="icon" type="image/png" href="PIC_Logo.png">
+    <link rel="shortcut icon" href="PIC_Logo.png" type="image/x-icon">
+    
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Tooltip de copiado -->
     <div id="copy-tooltip">Copiado</div>
-
-    <!-- Navegación inyectada por JS -->
     <div id="nav-container"></div>
 
-    <!-- Sección Hero (Con los márgenes exactos del montaje de la imagen de referencia) -->
     <header id="home" class="hero">
         <div class="hero-overlay"></div>
         <div class="hero-content reveal">
             <div class="titles">
+                <p class="hero-greeting">Hello! I am Humberto and I am a</p>
                 <h1 class="accent glow-text">LIGHTING &</h1>
                 <h1 class="accent glow-text">COMPOSITING ARTIST</h1>
             </div>
         </div>
     </header>
 
-    <!-- Sección Showreel -->
     <section id="showreel" class="section showreel-section">
         <h2 class="left accent glow-text reveal showreel-title">SHOWREEL</h2>
         <div class="showreel-bio reveal">
@@ -34,7 +34,6 @@
         </div>
         <div class="video-container reveal" id="video-wrapper">
             <div class="video-overlay" id="video-overlay">
-                <!-- Miniatura antes del play -->
                 <img src="PIC_Showreel_Miniatura.jpg" onerror="this.onerror=null; this.src='PIC_Showreel_Miniatura.png';" alt="Showreel Thumbnail">
                 <div class="play-btn">&#9658;</div>
             </div>
@@ -44,27 +43,20 @@
 
     <hr class="divider reveal">
 
-    <!-- Sección Proyectos (FEATURED PROJECTS & WORKS) -->
     <section id="projects" class="section">
         <h2 class="left accent glow-text reveal">FEATURED PROJECTS & WORKS</h2>
-        <div class="projects-grid featured-grid" id="projects-container">
-            <!-- Se inyectarán los proyectos principales en 2 columnas -->
-        </div>
+        <div class="projects-grid featured-grid" id="projects-container"></div>
     </section>
 
     <hr class="divider reveal">
 
-    <!-- Sección GALLERY (Desde fuera la cuadrícula es de 2 columnas / 2x3 como antes) -->
     <section id="gallery" class="section">
         <h2 class="left accent glow-text reveal">GALLERY</h2>
-        <div class="projects-grid gallery-grid-2col" id="gallery-container">
-            <!-- Se inyectarán las imágenes de gallery en cuadrícula de 2 columnas -->
-        </div>
+        <div class="projects-grid gallery-grid-2col" id="gallery-container"></div>
     </section>
 
     <hr class="divider reveal">
 
-    <!-- Sección Contacto -->
     <section id="contact" class="section contact-section">
         <div class="contact-container reveal">
             <div class="contact-img">
@@ -100,7 +92,6 @@
         </div>
     </section>
 
-    <!-- Footer inyectado por JS -->
     <div id="footer-container"></div>
 
     <script src="script.js"></script>
