@@ -1,16 +1,19 @@
 let portfolioData = null;
 
 document.addEventListener('DOMContentLoaded', () => {
+    // 1. Inicializar Tema (Dark por defecto)
+    initTheme();
+
     fetch('data.json')
         .then(response => response.json())
         .then(data => {
             portfolioData = data;
             
-            // 1. Inyectamos componentes globales
+            // 2. Inyectamos componentes globales
             renderNav();
             renderFooter();
             
-            // 2. Comprobamos la página
+            // 3. Comprobamos la página
             if (document.getElementById('skills-container')) {
                 // Página Principal
                 loadSkills(data.skills);
@@ -22,11 +25,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 loadProjectDetails();
             }
 
-            // 3. Inicializamos las animaciones de scroll
+            // 4. Inicializamos las animaciones de scroll
             setTimeout(initScrollAnimations, 50);
         })
         .catch(error => console.error('Error cargando el JSON:', error));
 });
+
+// Manejo de Tema Claro / Oscuro
+function initTheme() {
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+}
+
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    
+    // Actualizar icono del botón
+    const iconSpan = document.getElementById('theme-icon');
+    if(iconSpan) {
+        iconSpan.textContent = newTheme === 'light' ? '🌙' : '☀️';
+    }
+}
 
 // Animaciones On-Scroll
 function initScrollAnimations() {
@@ -34,11 +56,11 @@ function initScrollAnimations() {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('active');
-                obs.unobserve(entry.target); // Dejar de observar para que se anime solo 1 vez
+                obs.unobserve(entry.target);
             }
         });
     }, {
-        threshold: 0.1, // Se activa cuando el 10% del bloque es visible
+        threshold: 0.1,
         rootMargin: "0px 0px -50px 0px"
     });
 
@@ -88,8 +110,11 @@ function setupVideo() {
     }
 }
 
-// Inyecta el menú
+// Inyecta el menú (con Toggle de Tema, SHOWREEL, CV y Logo Amarillo)
 function renderNav() {
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+    const themeIcon = currentTheme === 'light' ? '🌙' : '☀️';
+    
     const dropdownLinks = portfolioData.projects.map(p => 
         `<a href="project-placeholder.html?title=${encodeURIComponent(p.title)}">${p.title}</a>`
     ).join('');
@@ -97,10 +122,12 @@ function renderNav() {
     const navHtml = `
     <nav>
         <div class="logo">
-            <a href="https://humbertoferrerbernal.github.io/" style="color:inherit; text-decoration:none;">HUMBERTO FERRER</a>
+            <a href="https://humbertoferrerbernal.github.io/">HUMBERTO FERRER</a>
         </div>
         <ul class="nav-links">
+            <li><button class="theme-toggle-btn" onclick="toggleTheme()" title="Cambiar Tema"><span id="theme-icon">${themeIcon}</span></button></li>
             <li><a href="https://humbertoferrerbernal.github.io/">HOME</a></li>
+            <li><a href="https://humbertoferrerbernal.github.io/#showreel">SHOWREEL</a></li>
             <li class="dropdown">
                 <a href="https://humbertoferrerbernal.github.io/#projects">PROJECTS ▾</a>
                 <div class="dropdown-content">
@@ -109,6 +136,7 @@ function renderNav() {
             </li>
             <li><a href="https://humbertoferrerbernal.github.io/#gallery">GALLERY</a></li>
             <li><a href="https://humbertoferrerbernal.github.io/#contact" class="btn-contact">CONTACT</a></li>
+            <li><a href="CV_Humberto_Ferrer.pdf" target="_blank" class="btn-cv">CV</a></li>
         </ul>
     </nav>
     `;
@@ -216,7 +244,6 @@ function loadProjectDetails() {
     document.getElementById('project-title').textContent = title;
     document.title = title + " | Humberto Ferrer";
     
-    // Buscamos si es proyecto normal o de gallery
     let project = portfolioData.projects.find(p => p.title === title);
     let isGallery = false;
     
@@ -230,11 +257,9 @@ function loadProjectDetails() {
             document.getElementById('project-desc').textContent = project.desc;
         }
         
-        // Roles de estilo normal en la página de detalle
         const rolesHtml = project.roles ? project.roles.map(role => `<span class="role-tag" style="background:rgba(229,185,26,0.2); color:#9A7B0E; border:none; padding:0.3rem 0.8rem; border-radius:10px; font-weight:bold;">${role}</span>`).join('') : '';
         document.getElementById('project-tags').innerHTML = rolesHtml;
         
-        // Imagen Clickeable para Lightbox
         const wrapper = document.getElementById('project-media');
         if (project.image) {
             const fallbackImg = project.image.replace('.png', '.jpg');
@@ -248,7 +273,6 @@ function loadProjectDetails() {
         }
     }
     
-    // Recomendaciones en la parte inferior filtrando el actual
     const relatedGallery = portfolioData.gallery.filter(a => a.title !== title);
     const relatedProjects = portfolioData.projects.filter(p => p.title !== title);
     
