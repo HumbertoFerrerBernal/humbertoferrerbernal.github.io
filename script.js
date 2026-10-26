@@ -2,6 +2,7 @@ let portfolioData = null;
 
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
+    setupTabTitleListener();
 
     fetch('data.json')
         .then(response => response.json())
@@ -10,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             renderNav();
             renderFooter();
+            updatePageTitle();
             
             if (document.getElementById('projects-container')) {
                 const validProjects = data.projects.filter(p => !p.title.startsWith('Proyecto 0'));
@@ -24,6 +26,45 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(error => console.error('Error cargando el JSON:', error));
 });
+
+// GESTIÓN DE TÍTULOS DE PESTAÑA DINÁMICOS SEGÚN SCROLL / SECCIÓN
+function updatePageTitle() {
+    if (document.getElementById('project-detail-page')) return; // Manejado por loadProjectDetails
+
+    const updateTitleOnScroll = () => {
+        const scrollPos = window.scrollY + 200;
+        const showreelSec = document.getElementById('showreel');
+        const projectsSec = document.getElementById('projects');
+        const gallerySec = document.getElementById('gallery');
+        const contactSec = document.getElementById('contact');
+
+        if (contactSec && scrollPos >= contactSec.offsetTop) {
+            document.title = "Contact | Humberto Ferrer";
+        } else if (gallerySec && scrollPos >= gallerySec.offsetTop) {
+            document.title = "Gallery | Humberto Ferrer";
+        } else if (projectsSec && scrollPos >= projectsSec.offsetTop) {
+            document.title = "Projects | Humberto Ferrer";
+        } else if (showreelSec && scrollPos >= showreelSec.offsetTop) {
+            document.title = "Showreel | Humberto Ferrer";
+        } else {
+            document.title = "Humberto Ferrer";
+        }
+    };
+
+    window.addEventListener('scroll', updateTitleOnScroll);
+    updateTitleOnScroll();
+}
+
+function setupTabTitleListener() {
+    window.addEventListener('hashchange', () => {
+        const hash = window.location.hash;
+        if (hash === '#showreel') document.title = "Showreel | Humberto Ferrer";
+        else if (hash === '#projects') document.title = "Projects | Humberto Ferrer";
+        else if (hash === '#gallery') document.title = "Gallery | Humberto Ferrer";
+        else if (hash === '#contact') document.title = "Contact | Humberto Ferrer";
+        else if (!document.getElementById('project-detail-page')) document.title = "Humberto Ferrer";
+    });
+}
 
 function initTheme() {
     const savedTheme = localStorage.getItem('theme') || 'dark';
@@ -47,6 +88,18 @@ function updateThemeIcon(theme) {
         } else {
             iconSpan.innerHTML = `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
         }
+    }
+
+    const mobileBtnText = document.getElementById('mobile-theme-text');
+    if (mobileBtnText) {
+        mobileBtnText.textContent = theme === 'dark' ? 'Modo Claro' : 'Modo Oscuro';
+    }
+}
+
+function toggleMobileMenu() {
+    const menu = document.getElementById('mobile-dropdown');
+    if (menu) {
+        menu.classList.toggle('active');
     }
 }
 
@@ -155,6 +208,7 @@ function setupVideo() {
 
 function renderNav() {
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+    const themeModeLabel = currentTheme === 'dark' ? 'Modo Claro' : 'Modo Oscuro';
     
     const dropdownLinks = portfolioData.projects
         .filter(p => !p.title.startsWith('Proyecto 0'))
@@ -167,7 +221,6 @@ function renderNav() {
         })
         .join('');
     
-    // ORDEN DE MENÚ ACTUALIZADO: ABOUT ENTRE GALLERY Y CONTACT
     const navHtml = `
     <nav>
         <div class="logo">
@@ -176,6 +229,8 @@ function renderNav() {
                 HUMBERTO FERRER
             </a>
         </div>
+        
+        <!-- Menú Normal Escritorio -->
         <ul class="nav-links">
             <li><button class="theme-toggle-btn" onclick="toggleTheme()" title="Cambiar Tema"><span id="theme-icon"></span></button></li>
             <li><a href="https://humbertoferrerbernal.github.io/">HOME</a></li>
@@ -190,6 +245,24 @@ function renderNav() {
             <li><a href="CV_Humberto_Ferrer.pdf" target="_blank" title="Abrir CV">ABOUT</a></li>
             <li><a href="https://humbertoferrerbernal.github.io/#contact" class="btn-contact">CONTACT</a></li>
         </ul>
+
+        <!-- Botón Hamburguesa 3 líneas Móvil (borde de 10px) -->
+        <button class="hamburger-btn" onclick="toggleMobileMenu()" aria-label="Abrir Menú">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <!-- Menú Desplegable Móvil -->
+        <div class="mobile-menu-dropdown" id="mobile-dropdown">
+            <button onclick="toggleTheme()"><span id="mobile-theme-text">${themeModeLabel}</span></button>
+            <a href="https://humbertoferrerbernal.github.io/" onclick="toggleMobileMenu()">HOME</a>
+            <a href="https://humbertoferrerbernal.github.io/#showreel" onclick="toggleMobileMenu()">SHOWREEL</a>
+            <a href="https://humbertoferrerbernal.github.io/#projects" onclick="toggleMobileMenu()">PROJECTS</a>
+            <a href="https://humbertoferrerbernal.github.io/#gallery" onclick="toggleMobileMenu()">GALLERY</a>
+            <a href="CV_Humberto_Ferrer.pdf" target="_blank" onclick="toggleMobileMenu()">ABOUT</a>
+            <a href="https://humbertoferrerbernal.github.io/#contact" onclick="toggleMobileMenu()">CONTACT</a>
+        </div>
     </nav>
     `;
     document.getElementById('nav-container').innerHTML = navHtml;
@@ -203,11 +276,23 @@ function renderFooter() {
             <strong>HUMBERTO FERRER</strong>
         </div>
         <div class="footer-center">
-            <a href="#" onclick="copyEmail(event, 'humberto.ferrer.bernal@gmail.com')">HUMBERTO.FERRER.BERNAL@GMAIL.COM</a>
-            <span class="separator">·</span>
-            <a href="https://www.linkedin.com/in/humberto-ferrer-bernal/" target="_blank">LINKEDIN - HUMBERTO FERRER</a>
-            <span class="separator">·</span>
-            <a href="http://artstation.com/humbfbx" target="_blank">ARTSTATION - HUMBERTO FERRER BERNAL</a>
+            <!-- Escritorio -->
+            <span class="desktop-footer-text-only">
+                <a href="#" onclick="copyEmail(event, 'humberto.ferrer.bernal@gmail.com')">HUMBERTO.FERRER.BERNAL@GMAIL.COM</a>
+                <span class="separator">·</span>
+                <a href="https://www.linkedin.com/in/humberto-ferrer-bernal/" target="_blank">LINKEDIN - HUMBERTO FERRER</a>
+                <span class="separator">·</span>
+                <a href="http://artstation.com/humbfbx" target="_blank">ARTSTATION - HUMBERTO FERRER BERNAL</a>
+            </span>
+
+            <!-- Móvil EXCLUSIVO -->
+            <span class="mobile-footer-text-only" style="display:none;">
+                <a href="#" onclick="copyEmail(event, 'humberto.ferrer.bernal@gmail.com')">MAIL</a>
+                <span class="separator">·</span>
+                <a href="https://www.linkedin.com/in/humberto-ferrer-bernal/" target="_blank">LINKEDIN</a>
+                <span class="separator">·</span>
+                <a href="http://artstation.com/humbfbx" target="_blank">ARTSTATION</a>
+            </span>
         </div>
         <div class="footer-right">
             <span class="copyright">© 2026 Humberto Ferrer - All rights reserved</span>
@@ -263,7 +348,6 @@ function buildRelatedSection(titleText, items, isGallerySection = false) {
     let html = `<h3 class="related-section-title reveal">${titleText}</h3>`;
     
     if (isGallerySection) {
-        // OTHER GALLERY: Usar flex centrado para que si la fila es descompensada (ej: 2 elementos) queden perfectamente centrados en la 2ª fila
         html += `<div class="mini-gallery-flex-grid">`;
         items.forEach(item => {
             let displayTitle = item.title;
@@ -286,7 +370,6 @@ function buildRelatedSection(titleText, items, isGallerySection = false) {
         });
         html += `</div>`;
     } else {
-        // OTHER PROJECTS: Formato horizontal con título grande a la derecha, roles pequeños y biografía completa
         html += `<div class="other-projects-flex-container">`;
         items.forEach(item => {
             let displayTitle = item.title;
@@ -350,12 +433,16 @@ function loadProjectDetails() {
         displayTitle = "Desafío Champions SENDOKAI";
     }
     
+    if (isGallery) {
+        document.title = "Gallery | Humberto Ferrer";
+    } else {
+        document.title = (displayTitle || "Proyecto") + " | Humberto Ferrer";
+    }
+
     const titleElem = document.getElementById('project-title');
     const subtitleElem = document.getElementById('project-subtitle');
     const dividerElem = document.getElementById('project-divider');
     const descElem = document.getElementById('project-desc');
-    
-    document.title = (displayTitle || "Detalle") + " | Humberto Ferrer";
     
     if (isGallery) {
         if (titleElem) titleElem.style.display = 'none';
@@ -390,9 +477,10 @@ function loadProjectDetails() {
         const extraContainer = document.getElementById('project-extra-content');
         
         if (displayTitle === "Desafío Champions SENDOKAI") {
+            // MINIATURA DESDE EL PROPIO VÍDEO DE YOUTUBE (maxresdefault)
             wrapper.innerHTML = `
                 <div class="video-overlay" id="sendokai-video-overlay" style="cursor:pointer;">
-                    <img src="PIC_Sendokai_01.png" onerror="this.onerror=null; this.src='PIC_Sendokai_01.jpg';" alt="Sendokai Trailer" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; opacity:0.8;">
+                    <img src="https://img.youtube.com/vi/fwHFyvh3dgo/maxresdefault.jpg" onerror="this.onerror=null; this.src='https://img.youtube.com/vi/fwHFyvh3dgo/hqdefault.jpg';" alt="Sendokai Trailer" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; opacity:0.85;">
                     <div class="play-btn" style="z-index:2;">&#9658;</div>
                 </div>
                 <iframe id="sendokai-iframe" src="https://www.youtube.com/embed/fwHFyvh3dgo" frameborder="0" allow="autoplay; encrypted-media; fullscreen" allowfullscreen style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;"></iframe>
