@@ -1,7 +1,6 @@
 let portfolioData = null;
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Inicializar Tema (Dark por defecto)
     initTheme();
 
     fetch('data.json')
@@ -9,29 +8,24 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => {
             portfolioData = data;
             
-            // 2. Inyectamos componentes globales
             renderNav();
             renderFooter();
             
-            // 3. Comprobamos la página
-            if (document.getElementById('skills-container')) {
-                // Página Principal
-                loadSkills(data.skills);
-                loadProjects(data.projects, 'projects-container');
+            if (document.getElementById('projects-container')) {
+                // Filtrar para que solo aparezcan proyectos reales (como Sendokai o No Life), excluyendo "Proyecto 01" / "Proyecto 02"
+                const validProjects = data.projects.filter(p => !p.title.startsWith('Proyecto 0'));
+                loadProjects(validProjects, 'projects-container');
                 loadProjects(data.gallery, 'gallery-container');
                 setupVideo();
             } else if (document.getElementById('project-detail-page')) {
-                // Página de Detalles del Proyecto
                 loadProjectDetails();
             }
 
-            // 4. Inicializamos las animaciones de scroll
             setTimeout(initScrollAnimations, 50);
         })
         .catch(error => console.error('Error cargando el JSON:', error));
 });
 
-// Manejo de Tema Claro / Oscuro
 function initTheme() {
     const savedTheme = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-theme', savedTheme);
@@ -43,14 +37,43 @@ function toggleTheme() {
     document.documentElement.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
     
-    // Actualizar icono del botón
     const iconSpan = document.getElementById('theme-icon');
     if(iconSpan) {
         iconSpan.textContent = newTheme === 'light' ? '🌙' : '☀️';
     }
 }
 
-// Animaciones On-Scroll
+// Desplegar Mail al hacer clic
+function toggleMailExpand(e) {
+    e.preventDefault();
+    const mailWrapper = document.getElementById('mail-wrapper');
+    if (mailWrapper) {
+        mailWrapper.classList.toggle('expanded');
+    }
+    // Copiar al portapapeles
+    navigator.clipboard.writeText('humberto.ferrer.bernal@gmail.com').then(() => {
+        showTooltip(e, 'Email Copiado');
+    });
+}
+
+function copyPhone(e, phone) {
+    e.preventDefault();
+    navigator.clipboard.writeText(phone).then(() => {
+        showTooltip(e, 'Teléfono Copiado');
+    });
+}
+
+function showTooltip(e, text) {
+    const tooltip = document.getElementById('copy-tooltip');
+    if(tooltip) {
+        tooltip.textContent = text;
+        tooltip.style.left = (e.clientX + 15) + 'px';
+        tooltip.style.top = (e.clientY + 15) + 'px';
+        tooltip.style.opacity = 1;
+        setTimeout(() => tooltip.style.opacity = 0, 1500);
+    }
+}
+
 function initScrollAnimations() {
     const observer = new IntersectionObserver((entries, obs) => {
         entries.forEach(entry => {
@@ -69,21 +92,13 @@ function initScrollAnimations() {
     });
 }
 
-// Función para copiar Email al portapapeles y mostrar "Copiado"
 function copyEmail(e, email) {
     e.preventDefault();
     navigator.clipboard.writeText(email).then(() => {
-        const tooltip = document.getElementById('copy-tooltip');
-        if(tooltip) {
-            tooltip.style.left = (e.clientX + 15) + 'px';
-            tooltip.style.top = (e.clientY + 15) + 'px';
-            tooltip.style.opacity = 1;
-            setTimeout(() => tooltip.style.opacity = 0, 1500);
-        }
+        showTooltip(e, 'Email Copiado');
     });
 }
 
-// Lightbox para la imagen individual
 function openLightbox(src) {
     const lb = document.getElementById('lightbox');
     const lbImg = document.getElementById('lightbox-img');
@@ -98,7 +113,6 @@ function closeLightbox() {
     if(lb) lb.style.display = 'none';
 }
 
-// Reproductor de Vimeo Custom
 function setupVideo() {
     const overlay = document.getElementById('video-overlay');
     if(overlay) {
@@ -110,14 +124,15 @@ function setupVideo() {
     }
 }
 
-// Inyecta el menú (con Toggle de Tema, SHOWREEL, CV y Logo Amarillo)
+// Menú de navegación (CV sustituido por ABOUT, que enlaza al texto del Hero/Contacto)
 function renderNav() {
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
     const themeIcon = currentTheme === 'light' ? '🌙' : '☀️';
     
-    const dropdownLinks = portfolioData.projects.map(p => 
-        `<a href="project-placeholder.html?title=${encodeURIComponent(p.title)}">${p.title}</a>`
-    ).join('');
+    const dropdownLinks = portfolioData.projects
+        .filter(p => !p.title.startsWith('Proyecto 0'))
+        .map(p => `<a href="project-placeholder.html?title=${encodeURIComponent(p.title)}">${p.title}</a>`)
+        .join('');
     
     const navHtml = `
     <nav>
@@ -128,6 +143,7 @@ function renderNav() {
             <li><button class="theme-toggle-btn" onclick="toggleTheme()" title="Cambiar Tema"><span id="theme-icon">${themeIcon}</span></button></li>
             <li><a href="https://humbertoferrerbernal.github.io/">HOME</a></li>
             <li><a href="https://humbertoferrerbernal.github.io/#showreel">SHOWREEL</a></li>
+            <li><a href="https://humbertoferrerbernal.github.io/#contact">ABOUT</a></li>
             <li class="dropdown">
                 <a href="https://humbertoferrerbernal.github.io/#projects">PROJECTS ▾</a>
                 <div class="dropdown-content">
@@ -136,14 +152,12 @@ function renderNav() {
             </li>
             <li><a href="https://humbertoferrerbernal.github.io/#gallery">GALLERY</a></li>
             <li><a href="https://humbertoferrerbernal.github.io/#contact" class="btn-contact">CONTACT</a></li>
-            <li><a href="CV_Humberto_Ferrer.pdf" target="_blank" class="btn-cv">CV</a></li>
         </ul>
     </nav>
     `;
     document.getElementById('nav-container').innerHTML = navHtml;
 }
 
-// Inyecta el footer global
 function renderFooter() {
     const footerHtml = `
     <footer class="footer">
@@ -165,22 +179,6 @@ function renderFooter() {
     document.getElementById('footer-container').innerHTML = footerHtml;
 }
 
-function loadSkills(skills) {
-    const container = document.getElementById('skills-container');
-    skills.forEach(skill => {
-        const tagsHtml = skill.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
-        const cardHtml = `
-            <div class="card reveal">
-                <h3>${skill.title}</h3>
-                <p>${skill.description}</p>
-                <div class="tags">${tagsHtml}</div>
-            </div>
-        `;
-        container.innerHTML += cardHtml;
-    });
-}
-
-// Cargar proyectos (Grid Principal Overlay)
 function loadProjects(items, containerId) {
     const container = document.getElementById(containerId);
     if (!container || !items) return;
@@ -210,7 +208,6 @@ function loadProjects(items, containerId) {
     });
 }
 
-// Función auxiliar para crear cuadrículas pequeñas
 function buildRelatedSection(titleText, items) {
     if (!items || items.length === 0) return '';
     let html = `<h3 class="accent reveal" style="margin: 3rem 0 1rem 0; font-size: 1.2rem; letter-spacing: 2px;">${titleText}</h3>`;
@@ -274,7 +271,7 @@ function loadProjectDetails() {
     }
     
     const relatedGallery = portfolioData.gallery.filter(a => a.title !== title);
-    const relatedProjects = portfolioData.projects.filter(p => p.title !== title);
+    const relatedProjects = portfolioData.projects.filter(p => p.title !== title && !p.title.startsWith('Proyecto 0'));
     
     let relatedHtml = '';
     
