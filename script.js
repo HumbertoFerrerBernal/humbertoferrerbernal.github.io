@@ -13,8 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (document.getElementById('projects-container')) {
                 const validProjects = data.projects.filter(p => !p.title.startsWith('Proyecto 0'));
-                loadProjects(validProjects, 'projects-container');
-                loadProjects(data.gallery, 'gallery-container');
+                loadProjects(validProjects, 'projects-container', false);
+                loadProjects(data.gallery, 'gallery-container', true);
                 setupVideo();
             } else if (document.getElementById('project-detail-page')) {
                 loadProjectDetails();
@@ -43,10 +43,10 @@ function updateThemeIcon(theme) {
     const iconSpan = document.getElementById('theme-icon');
     if (iconSpan) {
         if (theme === 'light') {
-            // Icono de línea Luna (Blanco)
+            // Icono de línea Luna
             iconSpan.innerHTML = `<svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
         } else {
-            // Icono de línea Sol (Blanco)
+            // Icono de línea Sol
             iconSpan.innerHTML = `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
         }
     }
@@ -155,14 +155,17 @@ function setupVideo() {
     }
 }
 
-// Menú de navegación con Texto Blanco en el Banner Amarillo
+// Menú de navegación (Garantiza siempre Desafío Champions SENDOKAI sin Rebirth)
 function renderNav() {
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
     
     const dropdownLinks = portfolioData.projects
         .filter(p => !p.title.startsWith('Proyecto 0'))
         .map(p => {
-            let linkTitle = p.title === "Desafío Champions SENDOKAI: Rebirth" ? "Desafío Champions SENDOKAI" : p.title;
+            let linkTitle = p.title;
+            if (linkTitle.includes("Sendokai") || linkTitle.includes("SENDOKAI")) {
+                linkTitle = "Desafío Champions SENDOKAI";
+            }
             return `<a href="project-placeholder.html?title=${encodeURIComponent(p.title)}">${linkTitle}</a>`;
         })
         .join('');
@@ -216,17 +219,16 @@ function renderFooter() {
     document.getElementById('footer-container').innerHTML = footerHtml;
 }
 
-function loadProjects(items, containerId) {
+function loadProjects(items, containerId, isGallery = false) {
     const container = document.getElementById(containerId);
     if (!container || !items) return;
     
     items.forEach(item => {
         let displayTitle = item.title;
-        if (displayTitle === "Desafío Champions SENDOKAI: Rebirth") {
+        if (displayTitle.includes("Sendokai") || displayTitle.includes("SENDOKAI")) {
             displayTitle = "Desafío Champions SENDOKAI";
         }
         
-        const rolesHtml = item.roles ? item.roles.map(role => `<span class="role-tag">${role}</span>`).join('') : '';
         const largeClass = item.size === 'large' ? 'large' : '';
         
         let imgContent = `Landscape Placeholder`;
@@ -237,27 +239,36 @@ function loadProjects(items, containerId) {
             
         const linkUrl = `project-placeholder.html?title=${encodeURIComponent(item.title)}`;
         
-        const cardHtml = `
-            <a href="${linkUrl}" class="project-card ${largeClass} reveal">
-                <div class="project-img">${imgContent}</div>
+        // Si es Galería, NO mostrar título ni tags en la miniatura de la portada
+        let infoHtml = '';
+        if (!isGallery) {
+            const rolesHtml = item.roles ? item.roles.map(role => `<span class="role-tag">${role}</span>`).join('') : '';
+            infoHtml = `
                 <div class="project-info">
                     <h3>${displayTitle}</h3>
                     <div class="project-roles">${rolesHtml}</div>
                 </div>
+            `;
+        }
+        
+        const cardHtml = `
+            <a href="${linkUrl}" class="project-card ${largeClass} reveal">
+                <div class="project-img">${imgContent}</div>
+                ${infoHtml}
             </a>
         `;
         container.innerHTML += cardHtml;
     });
 }
 
-function buildRelatedSection(titleText, items) {
+function buildRelatedSection(titleText, items, isGallerySection = false) {
     if (!items || items.length === 0) return '';
     let html = `<h3 class="related-section-title reveal">${titleText}</h3>`;
     html += `<div class="mini-projects-grid">`;
     
     items.forEach(item => {
         let displayTitle = item.title;
-        if (displayTitle === "Desafío Champions SENDOKAI: Rebirth") {
+        if (displayTitle.includes("Sendokai") || displayTitle.includes("SENDOKAI")) {
             displayTitle = "Desafío Champions SENDOKAI";
         }
         
@@ -268,12 +279,20 @@ function buildRelatedSection(titleText, items) {
         }
         const linkUrl = `project-placeholder.html?title=${encodeURIComponent(item.title)}`;
         
-        html += `
-            <a href="${linkUrl}" class="project-card reveal">
-                <div class="project-img">${imgContent}</div>
+        // Si la sección relacionada es Gallery, no mostrar título en la tarjeta mini
+        let miniInfoHtml = '';
+        if (!isGallerySection) {
+            miniInfoHtml = `
                 <div class="project-info">
                     <h4>${displayTitle}</h4>
                 </div>
+            `;
+        }
+        
+        html += `
+            <a href="${linkUrl}" class="project-card reveal">
+                <div class="project-img">${imgContent}</div>
+                ${miniInfoHtml}
             </a>
         `;
     });
@@ -298,8 +317,21 @@ function loadProjectDetails() {
         displayTitle = "Desafío Champions SENDOKAI";
     }
     
-    document.getElementById('project-title').textContent = displayTitle;
-    document.title = displayTitle + " | Humberto Ferrer";
+    const titleElem = document.getElementById('project-title');
+    const subtitleElem = document.getElementById('project-subtitle');
+    const dividerElem = document.getElementById('project-divider');
+    
+    document.title = (displayTitle || "Detalle") + " | Humberto Ferrer";
+    
+    // Si es un item de Gallery, Ocultar Título y Tags dentro de la página de detalle
+    if (isGallery) {
+        if (titleElem) titleElem.style.display = 'none';
+        if (subtitleElem) subtitleElem.style.display = 'none';
+        if (dividerElem) dividerElem.style.display = 'none';
+        document.getElementById('project-tags').style.display = 'none';
+    } else {
+        if (titleElem) titleElem.textContent = displayTitle;
+    }
     
     if (project) {
         let bioText = project.desc;
@@ -309,11 +341,53 @@ function loadProjectDetails() {
         
         document.getElementById('project-desc').textContent = bioText || "";
         
-        const rolesHtml = project.roles ? project.roles.map(role => `<span class="role-tag detail-page-tag">${role}</span>`).join('') : '';
-        document.getElementById('project-tags').innerHTML = rolesHtml;
+        if (!isGallery) {
+            const rolesHtml = project.roles ? project.roles.map(role => `<span class="role-tag detail-page-tag">${role}</span>`).join('') : '';
+            document.getElementById('project-tags').innerHTML = rolesHtml;
+        }
         
         const wrapper = document.getElementById('project-media');
-        if (project.image) {
+        const extraContainer = document.getElementById('project-extra-content');
+        
+        if (displayTitle === "Desafío Champions SENDOKAI") {
+            // Reproductores y cuadrícula 2x2 específica para Sendokai
+            wrapper.innerHTML = `
+                <div class="video-overlay" id="sendokai-video-overlay" style="cursor:pointer;">
+                    <img src="PIC_Sendokai_01.png" onerror="this.onerror=null; this.src='PIC_Sendokai_01.jpg';" alt="Sendokai Trailer" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; opacity:0.8;">
+                    <div class="play-btn" style="z-index:2;">&#9658;</div>
+                </div>
+                <iframe id="sendokai-iframe" src="https://www.youtube.com/embed/fwHFyvh3dgo" frameborder="0" allow="autoplay; encrypted-media; fullscreen" allowfullscreen style="position:absolute; top:0; left:0; width:100%; height:100%; border:none;"></iframe>
+            `;
+            
+            setTimeout(() => {
+                const overlay = document.getElementById('sendokai-video-overlay');
+                if(overlay) {
+                    overlay.addEventListener('click', () => {
+                        overlay.style.display = 'none';
+                        const iframe = document.getElementById('sendokai-iframe');
+                        iframe.src += "?autoplay=1";
+                    });
+                }
+            }, 50);
+
+            // Cuadrícula 2x2 con PIC_Sendokai_01 a 04
+            extraContainer.innerHTML = `
+                <div class="sendokai-grid">
+                    <div class="sendokai-card" onclick="openLightbox('PIC_Sendokai_01.png')">
+                        <img src="PIC_Sendokai_01.png" onerror="this.onerror=null; this.src='PIC_Sendokai_01.jpg';" alt="Sendokai 01">
+                    </div>
+                    <div class="sendokai-card" onclick="openLightbox('PIC_Sendokai_02.png')">
+                        <img src="PIC_Sendokai_02.png" onerror="this.onerror=null; this.src='PIC_Sendokai_02.jpg';" alt="Sendokai 02">
+                    </div>
+                    <div class="sendokai-card" onclick="openLightbox('PIC_Sendokai_03.png')">
+                        <img src="PIC_Sendokai_03.png" onerror="this.onerror=null; this.src='PIC_Sendokai_03.jpg';" alt="Sendokai 03">
+                    </div>
+                    <div class="sendokai-card" onclick="openLightbox('PIC_Sendokai_04.png')">
+                        <img src="PIC_Sendokai_04.png" onerror="this.onerror=null; this.src='PIC_Sendokai_04.jpg';" alt="Sendokai 04">
+                    </div>
+                </div>
+            `;
+        } else if (project.image) {
             const fallbackImg = project.image.replace('.png', '.jpg');
             wrapper.innerHTML = `<img src="${project.image}" alt="${displayTitle}" onerror="this.onerror=null; this.src='${fallbackImg}';" style="width:100%; height:100%; object-fit:cover;">`;
             wrapper.onclick = function() {
@@ -331,11 +405,11 @@ function loadProjectDetails() {
     let relatedHtml = '';
     
     if (isGallery) {
-        relatedHtml += buildRelatedSection('OTHER GALLERY:', relatedGallery);
-        relatedHtml += buildRelatedSection('OTHER PROJECTS:', relatedProjects);
+        relatedHtml += buildRelatedSection('OTHER GALLERY:', relatedGallery, true);
+        relatedHtml += buildRelatedSection('OTHER PROJECTS:', relatedProjects, false);
     } else {
-        relatedHtml += buildRelatedSection('OTHER PROJECTS:', relatedProjects);
-        relatedHtml += buildRelatedSection('OTHER GALLERY:', relatedGallery);
+        relatedHtml += buildRelatedSection('OTHER PROJECTS:', relatedProjects, false);
+        relatedHtml += buildRelatedSection('OTHER GALLERY:', relatedGallery, true);
     }
     
     document.getElementById('related-sections').innerHTML = relatedHtml;
