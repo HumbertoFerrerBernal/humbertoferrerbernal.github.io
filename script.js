@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
             renderFooter();
             
             if (document.getElementById('projects-container')) {
-                // Filtrar para que solo aparezcan proyectos reales (como Sendokai o No Life), excluyendo "Proyecto 01" / "Proyecto 02"
                 const validProjects = data.projects.filter(p => !p.title.startsWith('Proyecto 0'));
                 loadProjects(validProjects, 'projects-container');
                 loadProjects(data.gallery, 'gallery-container');
@@ -50,17 +49,42 @@ function toggleMailExpand(e) {
     if (mailWrapper) {
         mailWrapper.classList.toggle('expanded');
     }
-    // Copiar al portapapeles
     navigator.clipboard.writeText('humberto.ferrer.bernal@gmail.com').then(() => {
         showTooltip(e, 'Email Copiado');
     });
 }
 
-function copyPhone(e, phone) {
+// Desplegar Phone al hacer clic (igual que Mail)
+function togglePhoneExpand(e) {
     e.preventDefault();
-    navigator.clipboard.writeText(phone).then(() => {
+    const phoneWrapper = document.getElementById('phone-wrapper');
+    if (phoneWrapper) {
+        phoneWrapper.classList.toggle('expanded');
+    }
+    navigator.clipboard.writeText('+34 644 755 446').then(() => {
         showTooltip(e, 'Teléfono Copiado');
     });
+}
+
+// Iluminar Mail y Teléfono con efecto Glow al pulsar LET'S WORK TOGETHER
+function highlightContactButtons(e) {
+    e.preventDefault();
+    const mail = document.getElementById('mail-wrapper');
+    const phone = document.getElementById('phone-wrapper');
+    
+    if (mail) {
+        mail.classList.remove('glow-highlight');
+        void mail.offsetWidth; // Trigger reflow
+        mail.classList.add('glow-highlight');
+        if (!mail.classList.contains('expanded')) mail.classList.add('expanded');
+    }
+    
+    if (phone) {
+        phone.classList.remove('glow-highlight');
+        void phone.offsetWidth; // Trigger reflow
+        phone.classList.add('glow-highlight');
+        if (!phone.classList.contains('expanded')) phone.classList.add('expanded');
+    }
 }
 
 function showTooltip(e, text) {
@@ -124,7 +148,7 @@ function setupVideo() {
     }
 }
 
-// Menú de navegación (CV sustituido por ABOUT, que enlaza al texto del Hero/Contacto)
+// Menú de navegación (ABOUT entre SHOWREEL y PROJECTS, con enlace al CV)
 function renderNav() {
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
     const themeIcon = currentTheme === 'light' ? '🌙' : '☀️';
@@ -143,7 +167,7 @@ function renderNav() {
             <li><button class="theme-toggle-btn" onclick="toggleTheme()" title="Cambiar Tema"><span id="theme-icon">${themeIcon}</span></button></li>
             <li><a href="https://humbertoferrerbernal.github.io/">HOME</a></li>
             <li><a href="https://humbertoferrerbernal.github.io/#showreel">SHOWREEL</a></li>
-            <li><a href="https://humbertoferrerbernal.github.io/#contact">ABOUT</a></li>
+            <li><a href="CV_Humberto_Ferrer.pdf" target="_blank" title="Abrir CV">ABOUT</a></li>
             <li class="dropdown">
                 <a href="https://humbertoferrerbernal.github.io/#projects">PROJECTS ▾</a>
                 <div class="dropdown-content">

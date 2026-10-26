@@ -14,7 +14,7 @@
     <!-- Navegación inyectada por JS -->
     <div id="nav-container"></div>
 
-    <!-- Sección Hero (Solo títulos grandes, bio eliminada según feedback) -->
+    <!-- Sección Hero (Solo títulos grandes) -->
     <header id="home" class="hero">
         <div class="hero-overlay"></div>
         <div class="hero-content reveal">
@@ -27,7 +27,7 @@
 
     <hr class="divider reveal">
 
-    <!-- Sección Showreel con nueva Bio -->
+    <!-- Sección Showreel con nueva Bio a ancho completo -->
     <section id="showreel" class="section">
         <h2 class="left accent glow-text reveal">SHOWREEL</h2>
         <div class="showreel-bio reveal">
@@ -44,17 +44,11 @@
         </div>
     </section>
 
-    <!-- Sección SKILLS (Oculta en CSS por feedback) -->
-    <section id="skills" class="section hidden-section" style="display: none;">
-        <h2 class="center reveal">SKILLS</h2>
-        <div class="grid-container" id="skills-container"></div>
-    </section>
-
     <hr class="divider reveal">
 
-    <!-- Sección Proyectos (Sin proyectos placeholder extra) -->
+    <!-- Sección Proyectos (FEATURED PROJECTS & WORKS todo en el mismo formato de título) -->
     <section id="projects" class="section">
-        <h2 class="left accent glow-text reveal">FEATURED PROJECTS <span class="badge-works">& WORKS</span></h2>
+        <h2 class="left accent glow-text reveal">FEATURED PROJECTS & WORKS</h2>
         <div class="projects-grid" id="projects-container">
             <!-- Se inyectarán solo proyectos reales -->
         </div>
@@ -72,7 +66,7 @@
 
     <hr class="divider reveal">
 
-    <!-- Sección Contacto (Ubicación eliminada, Bio de Hero trasladada aquí, botón MAIL con desplegable) -->
+    <!-- Sección Contacto (Glow en botones, PHONE desplegable, sin línea en botón principal) -->
     <section id="contact" class="section contact-section">
         <div class="contact-container reveal">
             <div class="contact-img">
@@ -88,53 +82,22 @@
                     <strong>Lighting and Compositing Artist</strong> focused on mood, visual storytelling, and cinematic impact. Experienced in creating rich atmospheres and seamlessly integrating elements for <strong>audiovisuals, cinema, and video games</strong>.
                 </p>
                 
-                <a href="#" onclick="copyEmail(event, 'humberto.ferrer.bernal@gmail.com')" class="btn-primary">LET'S WORK TOGETHER &rarr;</a>
+                <a href="#" onclick="highlightContactButtons(event)" class="btn-primary">LET'S WORK TOGETHER</a>
                 
                 <div class="social-links">
-                    <div class="mail-expand-wrapper" id="mail-wrapper" onclick="toggleMailExpand(event)">
+                    <div class="mail-expand-wrapper glow-target" id="mail-wrapper" onclick="toggleMailExpand(event)">
                         <span class="mail-btn-text">MAIL</span>
                         <span class="mail-expanded-address">: humberto.ferrer.bernal@gmail.com</span>
                     </div>
+                    
                     <a href="https://www.linkedin.com/in/humberto-ferrer-bernal/" target="_blank">LINKEDIN</a>
                     <a href="http://artstation.com/humbfbx" target="_blank">ARTSTATION</a>
-                    <a href="tel:+34644755446" onclick="copyPhone(event, '+34 644 755 446')" class="phone-link">+34 644 755 446</a>
+                    
+                    <div class="phone-expand-wrapper glow-target" id="phone-wrapper" onclick="togglePhoneExpand(event)">
+                        <span class="phone-btn-text">PHONE</span>
+                        <span class="phone-expanded-address">: +34 644 755 446</span>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <hr class="divider reveal">
-
-    <!-- Sección Software Proficiency (Movida DEBAJO de Contact y apilada verticalmente) -->
-    <section id="software" class="section">
-        <h2 class="center reveal">SOFTWARE PROFICIENCY</h2>
-        <div class="software-stacked-container reveal">
-            <!-- Bloque Software (3 columnas) -->
-            <div class="software-card">
-                <h3>SOFTWARE</h3>
-                <ul class="software-list-3col">
-                    <li>Houdini</li>
-                    <li>Autodesk Maya</li>
-                    <li>NukeX</li>
-                    <li>Blender</li>
-                    <li>Prism</li>
-                    <li>DaVinci Resolve</li>
-                    <li>Unreal Engine 5</li>
-                    <li>After Effects</li>
-                    <li>TIK Manager</li>
-                    <li>Fusion Studio</li>
-                </ul>
-            </div>
-            
-            <!-- Bloque Render Engines (Abajo de Software) -->
-            <div class="software-card">
-                <h3>RENDER ENGINES</h3>
-                <ul class="software-list-2col">
-                    <li>Arnold</li>
-                    <li>Karma</li>
-                    <li>Eevee</li>
-                    <li>Cycles</li>
-                </ul>
             </div>
         </div>
     </section>
