@@ -260,7 +260,10 @@ function loadProjects(items, containerId, isGallery = false) {
 function buildRelatedSection(titleText, items, isGallerySection = false) {
     if (!items || items.length === 0) return '';
     let html = `<h3 class="related-section-title reveal">${titleText}</h3>`;
-    html += `<div class="mini-projects-grid">`;
+    
+    // Si es la sección de OTHER GALLERY dentro del detalle, usar cuadrícula 3x3
+    const gridClass = isGallerySection ? 'mini-gallery-grid-3x3' : 'mini-projects-grid';
+    html += `<div class="${gridClass}">`;
     
     items.forEach(item => {
         let displayTitle = item.title;
@@ -319,13 +322,12 @@ function loadProjectDetails() {
     
     document.title = (displayTitle || "Detalle") + " | Humberto Ferrer";
     
-    // Si es Gallery: ocultar título, subtítulo, divider, tags y texto por defecto
     if (isGallery) {
         if (titleElem) titleElem.style.display = 'none';
         if (subtitleElem) subtitleElem.style.display = 'none';
         if (dividerElem) dividerElem.style.display = 'none';
         document.getElementById('project-tags').style.display = 'none';
-        if (descElem) descElem.style.display = 'none'; // ELIMINADO TEXTO DE GALERÍA
+        if (descElem) descElem.style.display = 'none';
     } else {
         if (titleElem) titleElem.textContent = displayTitle;
     }
@@ -333,11 +335,9 @@ function loadProjectDetails() {
     if (project) {
         let bioText = project.desc;
         
-        // Texto específico de NO LIFE
         if (displayTitle === "NO LIFE" || (project.title && project.title.includes("NO LIFE"))) {
             bioText = "Lighting Lead responsible of final look and workflow optimization throughout the project. Developed master lighting setups for interior, exterior, and underwater sequences, creating an efficient pipeline for teamwide collaboration. Built custom tools for underwater lighting simulation and scene setup automation, reducing iteration times. Enhanced final compositions through volumetric effects and color grading, helping define the project's visual style and atmosphere.";
         } 
-        // Texto específico de SENDOKAI
         else if (displayTitle === "Desafío Champions SENDOKAI") {
             bioText = "Tasked with shaping the visual mood across several episodes, I developed master lighting setups that faithfully translated the directors' color keys into the 3D environment. A key focus was maintaining strict shot-to-shot consistency while preserving the show's signature friendly, cartoon aesthetic—characterized by vibrant colors, rich atmospheres, and strong rim lights. A major part of the process also involved managing the in-house render farm, maximizing its capacity, and actively troubleshooting render errors as they arose to keep production moving smoothly.";
         }

@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         .project-detail-hero {
-            padding: 8rem 15% 4rem;
+            padding: 8.5rem 15% 4rem;
             text-align: left;
         }
         .project-media-wrapper {
@@ -72,6 +72,12 @@
             font-size: 1.1rem;
         }
         .back-btn:hover { text-decoration: underline; }
+
+        @media screen and (max-width: 768px), screen and (orientation: portrait) {
+            .project-detail-hero {
+                padding: 7rem 5% 3rem !important;
+            }
+        }
     </style>
 </head>
 <body id="project-detail-page">

@@ -32,6 +32,7 @@ body {
     color: var(--text-main); 
     line-height: 1.6; 
     transition: background-color 0.3s ease, color 0.3s ease;
+    overflow-x: hidden;
 }
 
 /* Tipografía */
@@ -67,7 +68,7 @@ nav {
     font-size: 1.35rem; 
     letter-spacing: 1px; 
     color: #ffffff !important;
-    text-shadow: none !important; /* SOMBRA ELIMINADA */
+    text-shadow: none !important;
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -83,7 +84,7 @@ nav {
 .nav-links { display: flex; gap: 1.8rem; list-style: none; align-items: center; }
 .nav-links a { 
     color: #ffffff !important;
-    text-shadow: none !important; /* SOMBRA ELIMINADA */
+    text-shadow: none !important;
     text-decoration: none; 
     font-size: 0.95rem; 
     font-weight: 800; 
@@ -148,13 +149,13 @@ nav {
     text-decoration: none !important;
 }
 
-/* Hero Section (+30px más de espacio superior hacia el título) */
+/* Hero Section (Estructura exacta del montaje de la imagen de referencia: 70px+ de espacio superior y margen perfecto con el showreel) */
 .hero { 
     min-height: auto; 
     display: flex; 
     align-items: center; 
     justify-content: center; 
-    padding: 6.7rem 15% 3.5rem 15%; /* Incrementado de 4.8rem a 6.7rem (+30px aprox) */
+    padding: 9.5rem 15% 5rem 15%; /* Margen amplio de 70px+ desde el banner superior */
     background-color: var(--bg-color); 
     text-align: center;
 }
@@ -173,13 +174,13 @@ nav {
     text-align: center;
 }
 
-/* Sección Showreel */
+/* Sección Showreel (Margen ajustado según el montaje) */
 .showreel-section {
-    padding-top: 2rem !important;
+    padding-top: 1rem !important;
 }
 
 .showreel-title {
-    margin-bottom: 0.8rem !important;
+    margin-bottom: 1.2rem !important;
 }
 
 .showreel-bio {
@@ -223,25 +224,22 @@ nav {
 /* Sections general */
 .section { padding: 4rem 15%; }
 
-/* Projects Grid */
+/* Projects Grid (Formato Estándar) */
 .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
 
-/* Tarjetas de Featured Projects (+10px más de altura) */
+/* Tarjetas de Featured Projects */
 .featured-grid .project-card {
-    height: 410px; /* Aumentado 10px (de 400px a 410px) */
+    height: 410px;
 }
 .featured-grid .project-card.large {
-    height: 560px; /* Aumentado 10px (de 550px a 560px) */
+    height: 560px;
 }
 
-/* Cuadrícula 3x3 para Gallery */
-.gallery-grid-3x3 {
+/* Gallery desde fuera: Cuadrícula de 2 columnas (2x3) */
+.gallery-grid-2col {
     display: grid;
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 1.5rem !important;
-}
-.gallery-grid-3x3 .project-card {
-    height: 280px !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 2rem !important;
 }
 
 .project-card {
@@ -256,7 +254,7 @@ nav {
     transition: all 0.3s ease;
 }
 
-.project-card.large { grid-column: 1 / -1; height: 550px; }
+.project-card.large { grid-column: 1 / -1; height: 560px; }
 .project-card:hover { 
     box-shadow: 0 0 25px rgba(229, 185, 26, 0.5); 
     transform: translateY(-5px); 
@@ -420,19 +418,36 @@ nav {
     font-weight: 900;
 }
 
+/* SECCIONES RELACIONADAS DENTRO DE DETALLE (OTHER PROJECTS & OTHER GALLERY) */
+/* Ambas tienen siempre la proporción 16:9 pequeña y uniforme */
 .mini-projects-grid {
     display: grid; 
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
     gap: 1.5rem; 
     margin-bottom: 2rem;
 }
-.mini-projects-grid .project-card { 
-    height: 180px !important; 
+
+/* Cuadrícula 3x3 específica para OTHER GALLERY en detalle */
+.mini-gallery-grid-3x3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 1.5rem !important;
+    margin-bottom: 2rem;
 }
-.mini-projects-grid .project-info { 
+
+/* Forzar la proporción clásica 16:9 en todas las minicartas de Other Projects y Other Gallery */
+.mini-projects-grid .project-card,
+.mini-gallery-grid-3x3 .project-card { 
+    height: auto !important; 
+    aspect-ratio: 16 / 9 !important;
+}
+
+.mini-projects-grid .project-info,
+.mini-gallery-grid-3x3 .project-info { 
     padding: 1rem; 
 }
-.mini-projects-grid h4 { 
+.mini-projects-grid h4,
+.mini-gallery-grid-3x3 h4 { 
     font-size: 1rem; 
     margin: 0; 
     color: #fff; 
@@ -483,11 +498,111 @@ nav {
     transform: translateY(0);
 }
 
-@media (max-width: 900px) {
-    .contact-container { flex-direction: column; text-align: center; }
-    .sendokai-grid { grid-template-columns: 1fr; }
-    .gallery-grid-3x3 { grid-template-columns: repeat(2, 1fr) !important; }
-}
-@media (max-width: 600px) {
-    .gallery-grid-3x3 { grid-template-columns: 1fr !important; }
+/* =========================================================
+   ADAPTACIÓN COMPLETA PARA MÓVIL Y FORMATO VERTICAL (RESPONSIVE)
+   ========================================================= */
+@media screen and (max-width: 768px), screen and (orientation: portrait) {
+    /* Banner de navegación responsive */
+    nav {
+        flex-direction: column;
+        padding: 0.8rem 4%;
+        gap: 0.6rem;
+    }
+    .logo a {
+        font-size: 1.1rem;
+    }
+    .nav-links {
+        gap: 0.7rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .nav-links a {
+        font-size: 0.75rem;
+    }
+    .btn-contact {
+        padding: 0.35rem 0.9rem !important;
+        font-size: 0.75rem !important;
+    }
+    .theme-toggle-btn {
+        width: 30px;
+        height: 30px;
+    }
+    .theme-toggle-btn svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    /* Hero en pantalla vertical */
+    .hero {
+        padding: 8rem 5% 3rem 5% !important;
+    }
+    h1 {
+        font-size: 2.4rem !important;
+        line-height: 1.2 !important;
+    }
+    h2 {
+        font-size: 2rem !important;
+        margin-bottom: 1.2rem !important;
+    }
+
+    /* Secciones generales */
+    .section {
+        padding: 3rem 5% !important;
+    }
+    .divider {
+        margin: 0 5% !important;
+    }
+
+    /* Reestructuración a 1 columna en móvil */
+    .projects-grid, 
+    .gallery-grid-2col, 
+    .mini-projects-grid, 
+    .mini-gallery-grid-3x3,
+    .sendokai-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1.2rem !important;
+    }
+
+    .project-card, 
+    .featured-grid .project-card, 
+    .featured-grid .project-card.large {
+        height: auto !important;
+        aspect-ratio: 16 / 9 !important;
+    }
+
+    .project-info h3 {
+        font-size: 1.3rem !important;
+    }
+
+    .contact-container {
+        flex-direction: column !important;
+        padding: 1.8rem 1.2rem !important;
+        text-align: center;
+        gap: 2rem !important;
+    }
+    .contact-img .img-placeholder {
+        width: 180px;
+        height: 180px;
+        margin: 0 auto;
+    }
+    .contact-bio {
+        font-size: 0.95rem !important;
+    }
+
+    /* Footer en móvil */
+    .footer {
+        flex-direction: column;
+        gap: 1.2rem;
+        text-align: center;
+        padding: 2.5rem 5%;
+    }
+    .footer-center {
+        position: static;
+        transform: none;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .separator {
+        display: none;
+    }
 }
